@@ -16,6 +16,7 @@
     <link rel="stylesheet" href="styles.css">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.4.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css">
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
     <title>Fin sYs</title>
@@ -122,8 +123,7 @@
                                                 <div class="notify bg-light-primary text-primary"><i class="bx bx-group"></i>
                                                 </div>
                                                 <div class="media-body">
-                                                    <h6 class="msg-name">New Customers<span class="msg-time float-right">14 Sec
-                              ago</span></h6>
+                                                    <h6 class="msg-name">New Customers<span class="msg-time float-right">14 Sec ago</span></h6>
                                                     <p class="msg-info">5 new user registered</p>
                                                 </div>
                                             </div>
@@ -133,8 +133,7 @@
                                                 <div class="notify bg-light-danger text-danger"><i class="bx bx-cart-alt"></i>
                                                 </div>
                                                 <div class="media-body">
-                                                    <h6 class="msg-name">New Orders <span class="msg-time float-right">2 min
-                              ago</span></h6>
+                                                    <h6 class="msg-name">New Orders <span class="msg-time float-right">2 min ago</span></h6>
                                                     <p class="msg-info">You have recived new orders</p>
                                                 </div>
                                             </div>
@@ -144,8 +143,7 @@
                                                 <div class="notify bg-light-shineblue text-shineblue"><i class="bx bx-file"></i>
                                                 </div>
                                                 <div class="media-body">
-                                                    <h6 class="msg-name">24 PDF File<span class="msg-time float-right">19 min
-                              ago</span></h6>
+                                                    <h6 class="msg-name">24 PDF File<span class="msg-time float-right">19 min ago</span></h6>
                                                     <p class="msg-info">The pdf files generated</p>
                                                 </div>
                                             </div>
@@ -155,8 +153,7 @@
                                                 <div class="notify bg-light-shineblue text-shineblue"><i class="bx bx-file"></i>
                                                 </div>
                                                 <div class="media-body">
-                                                    <h6 class="msg-name">24 PDF File<span class="msg-time float-right">19 min
-                              ago</span></h6>
+                                                    <h6 class="msg-name">24 PDF File<span class="msg-time float-right">19 min ago</span></h6>
                                                     <p class="msg-info">The pdf files generated</p>
                                                 </div>
                                             </div>
@@ -166,8 +163,7 @@
                                                 <div class="notify bg-light-cyne text-cyne"><i class="bx bx-send"></i>
                                                 </div>
                                                 <div class="media-body">
-                                                    <h6 class="msg-name">Time Response <span class="msg-time float-right">28 min
-                              ago</span></h6>
+                                                    <h6 class="msg-name">Time Response <span class="msg-time float-right">28 min ago</span></h6>
                                                     <p class="msg-info">5.1 min avarage time response</p>
                                                 </div>
                                             </div>
@@ -225,14 +221,11 @@
                                 <div class="menu-title">Create</div>
                             </a>
                             <ul>
-                                <li><a href="#"><i class="bx bx-right-arrow-alt"></i>Online
-                    Banking</a>
+                                <li><a href="#"><i class="bx bx-right-arrow-alt"></i>Online Banking</a>
                                 </li>
-                                <li><a href="#"><i class="bx bx-right-arrow-alt"></i>Offline
-                    Banking</a>
+                                <li><a href="#"><i class="bx bx-right-arrow-alt"></i>Offline Banking</a>
                                 </li>
-                                <li><a href="#"><i class="bx bx-right-arrow-alt"></i>Bank
-                    Reconcilation</a>
+                                <li><a href="#"><i class="bx bx-right-arrow-alt"></i>Bank Reconcilation</a>
                                 </li>
                             </ul>
                         </li>
@@ -243,18 +236,53 @@
                                 <div class="menu-title">Alter</div>
                             </a>
                             <ul>
-                                <li><a href="#"><i class="bx bx-right-arrow-alt"></i>Sal
-                    Records</a>
+                                <li><a href="#"><i class="bx bx-right-arrow-alt"></i>Sal Records</a>
                                 </li>
                                 <li><a href="#"><i class="bx bx-right-arrow-alt"></i>Invoices</a>
                                 </li>
                                 <li><a href="#"><i class="bx bx-right-arrow-alt"></i>Customers</a>
                                 </li>
-                                <li><a href="#"><i class="bx bx-right-arrow-alt"></i>Product and
-                    Services</a>
+                                <li><a href="#"><i class="bx bx-right-arrow-alt"></i>Product and Services</a>
                                 </li>
                             </ul>
                         </li>
+
+
+
+                        <li>
+                            <a href="javascript:;" class="has-arrow">
+                                <div class="parent-icon"><i class="bi bi-collection"></i>
+                                </div>
+                                <div class="menu-title">Cash/Bank Book(s)</div>
+                            </a>
+                            <ul>
+                                <li><a href="{% url 'cash_bank_summary' %}"><i class="bx bx-right-arrow-alt"></i>Cash/Bank Summary</a></li>
+                                <li><a href="{% url 'group_summary' %}"><i class="bx bx-right-arrow-alt"></i>Group Summary</a></li>
+                                <!-- <li><a href=""><i class="bx bx-right-arrow-alt"></i>Ledger_Voucher</a></li>
+                                <li><a href=""><i class="bx bx-right-arrow-alt"></i>Select Groupe</a></li> -->
+
+                            </ul>
+                        </li>
+
+
+                        <li>
+                            <a href="javascript:;" class="has-arrow">
+
+                                <div class="parent-icon"><i class="bi bi-collection"></i>
+                                </div>
+                                <div class="menu-title">Ledger</div>
+                            </a>
+                            <ul>
+                                <!-- <li><a href=""><i class="bx bx-right-arrow-alt"></i>Stock Group Summary</a> </li>
+                                <li><a href=""><i class="bx bx-right-arrow-alt"></i>Stock Item Voucher</a></li>
+                                <li><a href=""><i class="bx bx-right-arrow-alt"></i>Stock Item Monthly Summary</a> </li> -->
+                            </ul>
+                        </li>
+
+
+
+
+
                         <li>
                             <a href="javascript:;" class="has-arrow">
 
@@ -317,17 +345,13 @@
                                 <div class="menu-title">Day Book</div>
                             </a>
                             <ul>
-                                <li><a href="{% url 'profit' %}"><i class="bx bx-right-arrow-alt"></i>Profit and
-                    loss</a>
+                                <li><a href="#"><i class="bx bx-right-arrow-alt"></i>Profit and loss</a>
                                 </li>
-                                <li><a href="#"><i class="bx bx-right-arrow-alt"></i>Balance
-                    sheet</a>
+                                <li><a href="#"><i class="bx bx-right-arrow-alt"></i>Balance sheet</a>
                                 </li>
-                                <li><a href="#"><i class="bx bx-right-arrow-alt"></i>Accounts
-                    receivables</a>
+                                <li><a href="#"><i class="bx bx-right-arrow-alt"></i>Accounts receivables</a>
                                 </li>
-                                <li><a href="#"><i class="bx bx-right-arrow-alt"></i>Accounts
-                    payables</a>
+                                <li><a href="#"><i class="bx bx-right-arrow-alt"></i>Accounts payables</a>
                                 </li>
                             </ul>
                         </li>
@@ -352,8 +376,7 @@
                                 <div class="menu-title">Accounting</div>
                             </a>
                             <ul>
-                                <li><a href="#"><i class="bx bx-right-arrow-alt"></i>Chart of
-                    Accounts</a>
+                                <li><a href="#"><i class="bx bx-right-arrow-alt"></i>Chart of Accounts</a>
                                 </li>
                                 <li><a href="#"><i class="bx bx-right-arrow-alt"></i>Reconcile</a>
                                 </li>
@@ -384,8 +407,7 @@
                                 <div class="menu-title">Cash Management</div>
                             </a>
                             <ul>
-                                <li><a href="#"><i class="bx bx-right-arrow-alt"></i>Cash
-                    Position</a>
+                                <li><a href="#"><i class="bx bx-right-arrow-alt"></i>Cash Position</a>
                                 </li>
                                 <li><a href="#"><i class="bx bx-right-arrow-alt"></i>Cash Flow Analyzer</a>
                                 </li>

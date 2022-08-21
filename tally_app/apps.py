@@ -1,6 +1,6 @@
 from django.apps import AppConfig
 
 
-class Tapp1Config(AppConfig):
+class TallyAppConfig(AppConfig):
     default_auto_field = 'django.db.models.BigAutoField'
-    name = 'tapp1'
+    name = 'tally_app'
