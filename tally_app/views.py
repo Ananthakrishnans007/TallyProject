@@ -15,4 +15,29 @@ def cash_bank_summary(request):
 def group_summary(request):
     return render(request,'group_summary.html')    
     
+
+def ledger_cash(request):
+    return render(request,'ledger_cash.html')    
+       
+
+# Bank Accounts
+
+def bank_accounts(request):
+    return render(request,'bank_accounts.html')    
+
+def ledger_bank(request):
+    return render(request,'ledger_bank.html')    
+
+
+
+#leadger 
+
+def ledger(request):
+    return render(request,'ledger.html') 
+
+def ledger_show(request):
+    return render(request,'ledger_show.html') 
+
+
+  
     

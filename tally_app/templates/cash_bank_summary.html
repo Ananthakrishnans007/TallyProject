@@ -5,7 +5,16 @@
 
 <head>
     <style>
-        
+
+    thead th {
+    border: .5px solid rgba(255, 255, 255, .3); ;
+    
+    
+ }
+ .table-row{
+cursor:pointer;
+}
+
         
     </style>
 </head>
@@ -18,7 +27,7 @@
                 </div>
                 
                 <div class="table-responsive">
-                    <table  class="table table-hover table-bordered border-dark  " style="background-color: rgba(33,57,77,255);color:#fff;">
+                    <table  class="table  " style="background-color: rgba(33,57,77,255);color:#fff;">
                         <thead>
                         <tr>
                           <th rowspan="3" colspan="2"   class="align-middle text-white "> <h6 class="d-flex align-items-sm-start par p-1 py-1" style="margin-left: 20px;">Particular</h6></th>
@@ -27,7 +36,7 @@
                             <h5>ABC PVT.LTD</h5>For 1-Apr-2022</th>
                         </tr>
                         <tr>
-                          <th colspan="2" class="text-center text-white">Closing Balance</th>
+                          <th colspan="2" class="text-center text-white" >Closing Balance</th>
                         </tr>
                         <tr>
                           <th class="text-center text-white">Debit</th>
@@ -37,30 +46,40 @@
 
                     <tbody >
                         
-                        <tr >
-                            <td colspan="2"  >Cash-in-Hand</td>
+                          <tr >
+                            <td colspan="2"  > <a href=""> Cash-in-Hand </a> </td>
                             <td style="text-align: end;">20,900.00</td>
+                            <td></td>
+                        
                         </tr>
+                    
+                    
                         <tr>
                             <td colspan="2"><span style="margin-left: 20px;">Cash</span></td>
                             <td style="text-align: end;">20,900.00</td>
+                            <td></td>
                         </tr>
                         <tr>
-                            <td colspan="2">Bank Accounts</span></td>
+                            <td colspan="2"   class="table-row"data-href="{% url 'bank_accounts' %}">Bank Accounts</span></td>
+                        
                             <td style="text-align: end;">8,56,822.00</td>
                             <td style="text-align: end;">22,000.00</td>
+                        
                         </tr>
                         <tr>
                             <td colspan="2"><span style="margin-left: 20px;">Federal Bank</span></td>
-                            <td style="text-align: end;">28,53,150.00</td>
+                            <td style="text-align: end;">8,53,150.00</td>
+                            <td></td>
                         </tr>
                         <tr>
                             <td colspan="2"><span style="margin-left: 20px;">HDFC</span></td>
                             <td style="text-align: end;">2,672.00</td>
+                            <td></td>
                         </tr>
                         <tr>
                             <td colspan="2"><span style="margin-left: 20px;">Icici Bank</span></td>
                             <td style="text-align: end;">1,000.00</td>
+                            <td></td>
                         </tr>
                         <tr>
                             <td colspan="2"><span style="margin-left: 20px;">SBI</span></td>
@@ -98,4 +117,11 @@
         </div>
     </div>
 
+<script>
+    $(document).ready(function($) {
+        $(".table-row").click(function() {
+            window.document.location = $(this).data("href");
+        });
+    });
+</script>
 {% endblock %}
