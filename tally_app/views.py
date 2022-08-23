@@ -30,13 +30,26 @@ def ledger_bank(request):
 
 
 
+
 #leadger 
+
+def create_ledger(request):
+    return render(request,'load_create_ledger.html') 
+
+
+
+
 
 def ledger(request):
     return render(request,'ledger.html') 
 
 def ledger_show(request):
     return render(request,'ledger_show.html') 
+
+
+def ledger_monthly_summary(request):
+    return render(request,'ledger_monthly_summary.html') 
+
 
 
   

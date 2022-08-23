@@ -20,9 +20,19 @@ urlpatterns = [
     
     #ledger
 
+    path('create_ledger',views.create_ledger,name='create_ledger'),
+
+    
+
+
+
     path('ledger',views.ledger,name='ledger'),
 
     path('ledger_show',views.ledger_show,name='ledger_show'),
+
+    path('ledger_monthly_summary',views.ledger_monthly_summary,name='ledger_monthly_summary'),
+
+    
 
     
 
