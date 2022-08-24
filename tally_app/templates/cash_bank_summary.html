@@ -22,6 +22,20 @@ cursor:pointer;
     </style>
 </head>
 <body>
+    
+    <!-- {% for i in lst_group %}
+    <p>{{ i}}</p>
+    {% for key,value in ledger.items %}
+    
+
+    {% if i == key %}
+    <p>{{key}}</p>
+    {% endif %}
+    
+    {% endfor%}
+    {% endfor%}
+ -->
+
     <div class="container-fluid">
         <div class="main-panel">
             <div class="content-wrapper">
@@ -31,7 +45,7 @@ cursor:pointer;
                 
                 <div class="table-responsive">
                     <table  class="table  " style="background-color: rgba(33,57,77,255);color:#fff;">
-                        <thead>
+                    <thead>
                         <tr>
                           <th rowspan="3" colspan="2"   class="align-middle text-white "> <h6 class="d-flex align-items-sm-start par p-1 py-1" style="margin-left: 20px;">Particular</h6></th>
                           
@@ -42,27 +56,50 @@ cursor:pointer;
                           <th colspan="2" class="text-center text-white" >Closing Balance</th>
                         </tr>
                         <tr>
-                          <th class="text-center text-white">Debit</th>
-                          <th class="text-center text-white">Credit</th>
-                        </tr>
+                            <th class="text-center text-white">Debit</th>
+                            <th class="text-center text-white">Credit</th>
+                          </tr>
                     </thead>
 
                     <tbody >
+
+                        
+
+                        {% for i in lst_group %}
+                    
                         
                           <tr class="table-row">
-                            <td colspan="2"  >  Cash-in-Hand  </td>
-                            <td style="text-align: end;">20,900.00</td>
+                            <td colspan="2"  >  {{ i }}  </td>
+                            <!-- <td style="text-align: end;">{{i.ledger_opening_bal}}</td> -->
                             <td></td>
+                            
                         
                         </tr>
-                    
-                    
+                         
+                        <!-- <table>
+                            <thead>
+                                
+                            </thead>
+                            <tbody> -->
+                                
+                        {% for key,value in ledger.items  %}
+
+                        
+
                         <tr class="table-row">
-                            <td colspan="2"><span style="margin-left: 20px;">Cash</span></td>
-                            <td style="text-align: end;">20,900.00</td>
+                            <td colspan="2"><span style="margin-left: 20px;">{{value.ledger_name}} </span></td>
+                            <td style="text-align: end;">{{value.ledger_opening_bal}}</td>
                             <td></td>
                         </tr>
-                        <tr class="table-row" data-href="{% url 'bank_accounts' %}">
+                        {% endfor %}
+                           
+                        
+                        {% endfor %}
+                        
+                    
+                    
+                        
+                        <!-- <tr class="table-row" data-href="{% url 'bank_accounts' %}">
                             <td colspan="2"   >Bank Accounts</span></td>
                         
                             <td style="text-align: end;">8,56,822.00</td>
@@ -88,7 +125,7 @@ cursor:pointer;
                             <td colspan="2"><span style="margin-left: 20px;">SBI</span></td>
                             <td></td>
                             <td style="text-align: end;">22,000.00</td>
-                        </tr>
+                        </tr> -->
 
                         <tr class="table-row">
                             <th colspan="2" ><h6 class="d-flex align-items-sm-start par p-1 py-1 foot" style="margin-left: 20px;">Grand Total</h6></th>

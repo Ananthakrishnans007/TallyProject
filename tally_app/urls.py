@@ -20,13 +20,15 @@ urlpatterns = [
     
     #ledger
 
+    path('ledger',views.ledger,name='ledger'),
+
     path('create_ledger',views.create_ledger,name='create_ledger'),
 
+    path('save_ledger',views.save_ledger,name='save_ledger'),
+
+
+
     
-
-
-
-    path('ledger',views.ledger,name='ledger'),
 
     path('ledger_show',views.ledger_show,name='ledger_show'),
 

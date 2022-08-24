@@ -45,17 +45,19 @@ cursor:pointer;
                     </thead>
 
                     <tbody >
+                        {% for i in voucher %}
                     <tr class="table-row">
-                        <td style="text-align: center;">1-Apr-22</td>
-                        <td >Salary</td>
-                        <td>Payment</td>
-                        <td style="text-align: right ;">1</td>
-                        <td style="text-align: right ;"></td>
-                        <td style="text-align: right ;">18,000.00</td>
+                        <td style="text-align: center;">{{i.Date}}</td>
+                        <td ><strong>{{i.Particualrs}}</strong></td>
+                        <td><strong>{{i.Vch_Type}}</strong></td>
+                        <td style="text-align: right ;">{{i.Vch_No}}</td>
+                        <td style="text-align: right ;">{{i.Debit}}</td>
+                        <td style="text-align: right ;">{{i.Credit}}</td>
 
 
                     </tr>
-                    <tr class="table-row">
+                    {% endfor %}
+                    <!-- <tr class="table-row">
                         <td style="text-align: center;">1-Apr-22</td>
                         <td>Sales</td>
                         <td>Sales</td>
@@ -145,22 +147,22 @@ cursor:pointer;
 
 
 
-                    </tr>
+                    </tr> -->
 
 
                    
 
 
                     
-
+                    {% for i in ledger %}
                     <tr class="table-row">
                         <td colspan="4" style="text-align: right;"> Opening Balance : <br>
                             Current Total :</td>
-                            <td style="text-align: right;">22,50,000.00<br>
+                            <td style="text-align: right;">{{i.ledger_opening_bal}}<br>
                                12,900.00
    
                             </td>
-                            <td style="text-align: right;">2,42,000.00</td>
+                            <td style="text-align: right;"><br>2,42,000.00</td>
    
                         
                     </tr>
@@ -176,7 +178,7 @@ cursor:pointer;
                         
                     </tr>
 
-
+{% endfor %}
 
                        
                     

@@ -54,7 +54,12 @@
                             <div class="col-sm-6 m-0 p-0">
                                 <select name="group_under" id="under" class="form-control" onchange="showunder()" required>
                                     <option value="">----Select-----</option>
-                                    <option value="BankAccount1">BankAccouts</option>
+
+                                    {% for i in group %}
+                                    <option value="{{i.group_under_Name.id}}">{{i.group_under_Name}}</option>
+                                    {% endfor %}
+
+                                    <!-- <option value="Bank Account">Bank Accouts</option>
                                     <option value="Bank_OCC_AC">Bank OCC A/c</option>
                                     <option value="Bankod1">Bank OD A/c</option>
                                     <option value="Branch_divisions">Branch Divisions</option>
@@ -84,7 +89,7 @@
                                     <option value="Sundry_Creditors">Sundry Creditors</option>
                                     <option value="Sundry_Debtors">Sundry Debtors</option>
                                     <option value="Suspence">Suspence A/c</option>
-                                    <option value="Unsecured_loans">Unsecured Loans</option>   
+                                    <option value="Unsecured_loans">Unsecured Loans</option>    -->
                                 </select>
                             </div>
                             

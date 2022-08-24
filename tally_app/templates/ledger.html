@@ -12,7 +12,7 @@
     .ledger{
 
         
-        background-color: rgb(92, 219, 215);
+        background-color: rgb(65, 123, 160);
         width : 300px;
         margin: auto;
         text-align: center;
@@ -34,7 +34,7 @@
     }
     .box{
         width : 400px;
-        background-color: rgb(156, 245, 245);
+        background-color: rgba(33,57,77,255);color:#fff;
         margin: auto;
         height: 500px;
 
@@ -47,7 +47,7 @@
  .create{
     height: 40px;
     text-align: end;
-    color: #000;
+    color: #FFF;
     padding-right: 12px;
    padding-top: 35px;
     
@@ -56,7 +56,7 @@
     border: 1px solid rgb(12, 12, 12,.2);
  }
  .ledgers{
-    color:#000;
+    color:#FFF;
     padding-left: 15px;
     width: 100%;
     text-decoration: none;
@@ -72,7 +72,7 @@
 
  }
  .list a{
-    color:#000;
+    color:#FFF;
     padding-left: 10px;
 
  }
@@ -84,7 +84,7 @@
     <div class="container-fluid">
         <div class="main-panel">
             <div class="content-wrapper">
-                <div class="row d-flex " style="background-color: rgb(103, 175, 220);color:#fff;width:100%;margin: auto;">
+                <div class="row d-flex " style="background-color: rgb(103, 175, 220);color:#fff;color:#fff;width:100%;margin: auto;">
                     <div class="col "> Select Ledger</div>
                 </div>
                 
@@ -104,13 +104,13 @@
 
                 <div class="box">
                     <div class="head px-3" style="margin-top: 5px;">List of Ledgers</div>
-                    <div class="create" ><a href="{% url 'create_ledger' %}" style="color:#000 ;">Create</a> </div>
+                    <div class="create" ><a href="{% url 'create_ledger' %}" style="color:#FFF ;">Create</a> </div>
                     <hr>
 
                     <ul class="ledgers">
-                        <li class="list" ><a href=""> Cash</a></li>
-                        <li class="list" ><a href=""> Profit & Loss A/c</a></li>
-                        <li class="list" ><a href="{% url 'ledger_show' %}"> ANN ELEGENT</a></li>
+                        {% for i in ledger %}
+                        <li class="list" ><a href="{% url 'ledger_show' %}">{{i.ledger_name}}</a></li>
+                        {% endfor %}
                       </ul> 
                     <!-- <label class="ledgers"> </label>
                     <label class="ledgers"> Abc Pvt Ltd</label>
