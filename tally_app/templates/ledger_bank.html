@@ -4,6 +4,28 @@
 {% block body %}
 
 <head>
+    
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <!-- <script>
+        $(document).ready(function()
+
+        {
+            var amount;
+            var total=0;
+            $(this).find('debit').each(function()
+
+            {
+
+                amount=$(this).html()
+                total+=parseInt(amount);
+                $('#totalamount').text(total);
+
+            });
+        });
+
+        
+
+    </script> -->
     <style>
         
         
@@ -20,7 +42,7 @@
                 <div class="row  " style="height: 50px;">
                 <div class="col ">
                     <h6>
-                    <span class=" d-flex justify-content-start" style="margin-top: 8px;"> Ledger : <strong>Federal Bank </strong> </span>
+                    <span class=" d-flex justify-content-start" style="margin-top: 8px;"> Ledger : &nbsp;<strong>{{ledger_name}} </strong> </span>
                     <span class="d-flex  justify-content-end " style="margin-top: -15px;"> 1-Apr-22 to 30-Apr-22</span>
                 </h6>
                 </div>
@@ -40,17 +62,28 @@
                     </thead>
 
                     <tbody >
+                        {% for i in voucher %}
                     <tr>
-                        <td style="text-align: center;">1-Apr-22</td>
-                        <td ><strong>Michel Sam</strong></td>
-                        <td><strong>Receipt</strong></td>
-                        <td style="text-align: right ;">2</td>
-                        <td style="text-align: right ;"><strong>17,150.00</strong></td>
-                        <td style="text-align: right ;"></td>
+                        <td style="text-align: center;">{{i.Date}}</td>
+                        <td ><strong>{{i.Particualrs}}</strong></td>
+                        <td><strong>{{i.Vch_Type}}</strong></td>
+                        <td style="text-align: right ;">{{i.Vch_No}}</td>
+                        <td class="debit" style="text-align: right ;"><strong>
+                            {% if i.Debit %}
+                            {{i.Debit}}
+                            {% endif %}
+                        </strong></td>
+                        <td style="text-align: right ;"><strong>
+                            
+                            {% if i.Credit %}
+                            {{i.Credit}}
+                            {% endif %}
+                            </strong></td>
 
 
                     </tr>
-                    <tr>
+                    {% endfor %}
+                    <!-- <tr>
                         <td style="text-align: center;">1-Apr-22</td>
                         <td ><strong>Albert & Co</strong></td>
                         <td><strong>Payment</strong></td>
@@ -126,22 +159,23 @@
 
 
 
-                    </tr>
+                    </tr> -->
 
 
                    
 
 
                     
-
+                    {% for i in ledger %}
                     <tr>
                         <td colspan="4" style="text-align: right;"> Opening Balance : <br>
                             Current Total :</td>
-                            <td style="text-align: right;"><strong>10,00,000.00</strong><br>
-                                <strong>1,18,150.00</strong>
+                            <td style="text-align: right;"><strong>{{i.ledger_opening_bal}}</strong><br>
+                                <strong>{{total_debit}}</strong>
    
                             </td>
-                            <td style="text-align: right;"><strong>2,65,000.00</strong></td>
+                            <td style="text-align: right;" id=""><strong></strong><br>
+                                <strong>{{total_credit}}</strong></td>
    
                         
                     </tr>
@@ -151,14 +185,14 @@
                         </td>
                             
                             <td style="text-align: right;"><strong>8,53,150.00</strong></td>
-                            <td></td>
+                            <td style="text-align: right;"><strong></strong></td>
                             
    
                         
                     </tr>
 
 
-
+                {% endfor %}
                        
                     
                       

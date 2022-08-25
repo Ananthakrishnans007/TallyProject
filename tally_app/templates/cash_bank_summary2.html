@@ -43,13 +43,14 @@ thead th {
 
                     <tbody >
                         
-                        
+                        {% for i in ledger %}
                         <tr>
-                            <td colspan="2">Federal Bank</td>
+                            <td colspan="2">{{i.ledger_name}}</td>
                             <td style="text-align: end;">8,53,150.00</td>
                             <td></td>
                         </tr>
-                        <tr>
+                        {% endfor %}
+                        <!-- <tr>
                             <td colspan="2">HDFC</td>
                             <td style="text-align: end;">2,672.00</td>
                             <td></td>
@@ -63,7 +64,7 @@ thead th {
                             <td colspan="2">SBI</td>
                             <td></td>
                             <td style="text-align: end;">22,000.00</td>
-                        </tr>
+                        </tr> -->
 
                         <tr>
                             <th colspan="2" ><h6 class="d-flex align-items-sm-start par p-1 py-1 foot" style="margin-left: 20px;">Grand Total</h6></th>

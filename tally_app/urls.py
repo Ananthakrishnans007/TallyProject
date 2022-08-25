@@ -12,7 +12,7 @@ urlpatterns = [
 
     #bank account
 
-    path('bank_accounts',views.bank_accounts,name='bank_accounts'),
+    path('cash_bank_summary2/<int:id>',views.cash_bank_summary2,name='cash_bank_summary2'),
 
     path('ledger_bank',views.ledger_bank,name='ledger_bank'),
 

@@ -14,31 +14,18 @@ def Index(request):
 
 def cash_bank_summary(request):
 
-
-    ledger = Ledger.objects.values('ledger_name','ledger_opening_bal','id','group_under','group_under__group_under_Name')
+    group = Group_under.objects.all()
+    voucher = Ledger_Voucher.objects.all()
     
-    dct_group={}
-    lst_group=[]
-    for i in ledger :
-    
-        if i['group_under__group_under_Name'] in dct_group.keys():
-           dct_group[i['group_under__group_under_Name']].append(i)
-        else:
-            dct_group[i['group_under__group_under_Name']] = []
-            dct_group[i['group_under__group_under_Name']].append(i)
-            lst_group.append(i['group_under__group_under_Name'])
-    
-    # import pdb;pdb.set_trace()
     context = {
-        'ledger' :dct_group,
-        'lst_group':lst_group,
+        
+        'group':group,
+        'voucher' :voucher,
 
-        
-        
     }
 
-
-
+    # print(dct_group)
+    
     return render(request,'cash_bank_summary.html',context)
 
 def group_summary(request):
@@ -48,10 +35,12 @@ def group_summary(request):
 def ledger_cash(request):
     voucher = Ledger_Voucher.objects.filter(ledger=1)
     ledger = Ledger.objects.filter(id=1)
-
+    
+    
     context={
         'voucher' : voucher,
         'ledger' :ledger,
+        
 
     }
 
@@ -61,11 +50,48 @@ def ledger_cash(request):
 
 # Bank Accounts
 
-def bank_accounts(request):
-    return render(request,'bank_accounts.html')    
+def cash_bank_summary2(request,id):
+    ledger = Ledger.objects.filter(group_under=id)
+
+    context ={
+        'ledger' :ledger,
+    }
+
+
+
+    return render(request,'cash_bank_summary2.html',context)    
 
 def ledger_bank(request):
-    return render(request,'ledger_bank.html')    
+
+    voucher = Ledger_Voucher.objects.filter(ledger=1)
+    ledger = Ledger.objects.filter(id=1)
+    le = Ledger.objects.get(id=1)
+    ledger_n = le.ledger_name
+
+    total_debit=0 
+    total_credit=0 
+    for i in voucher:
+        if i.Debit :
+
+            total_debit +=  i.Debit
+        if i.Credit :
+            total_credit = total_credit + i.Credit
+
+
+
+
+    context={
+        'voucher' : voucher,
+        'ledger' :ledger,
+        'ledger_name':ledger_n,
+        'total_debit':total_debit,
+        'total_credit':total_credit,
+
+
+    }
+
+
+    return render(request,'ledger_bank.html',context)    
 
 
 
@@ -74,18 +100,22 @@ def ledger_bank(request):
 
 def create_ledger(request):
     group = Group_under.objects.all()
+    
 
     context = {
         'group' : group ,
+        
     }
 
     return render(request,'load_create_ledger.html',context) 
 
 def ledger(request):
     ledger = Ledger.objects.all()
+    
 
     context = {
         'ledger' :ledger,
+        
     }
 
     return render(request,'ledger.html',context ) 

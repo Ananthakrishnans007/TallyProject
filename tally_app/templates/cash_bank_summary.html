@@ -4,6 +4,29 @@
 {% block body %}
 
 <head>
+    
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+        <script>
+            // $(document).ready(function()
+
+            // {
+            //     var amount;
+            //     var total=0;
+            //     $('td:nth-child(2)').each(function()
+
+            //     {
+
+            //         amount=$(this).html()
+            //         total+=parseInt(amount);
+            //         $('#totalamount').text(total);
+
+            //     });
+            // });
+
+            
+
+        </script>
+    
     <style>
 
     thead th {
@@ -17,24 +40,18 @@ cursor:pointer;
 .table-row:hover{
     background-color: rgb(216, 155, 51);
 }
-
+.table-row1{
+cursor:pointer;
+}
+.table-row1:hover{
+    background-color: rgb(216, 155, 51);
+}
         
     </style>
 </head>
 <body>
     
-    <!-- {% for i in lst_group %}
-    <p>{{ i}}</p>
-    {% for key,value in ledger.items %}
-    
-
-    {% if i == key %}
-    <p>{{key}}</p>
-    {% endif %}
-    
-    {% endfor%}
-    {% endfor%}
- -->
+ 
 
     <div class="container-fluid">
         <div class="main-panel">
@@ -64,32 +81,30 @@ cursor:pointer;
                     <tbody >
 
                         
-
-                        {% for i in lst_group %}
-                    
                         
-                          <tr class="table-row">
-                            <td colspan="2"  >  {{ i }}  </td>
-                            <!-- <td style="text-align: end;">{{i.ledger_opening_bal}}</td> -->
+                        {% for i in group %}
+                        {% if i.ledger_set.all.exists %}
+                        
+                          <tr class="table-row1"  data-href="{% url 'cash_bank_summary2' i.id %}">
+                            <td colspan="2"  >  {{ i.group_under_Name }}  </td>
+                            <td style="text-align: end;" id="totalamount"></td>
                             <td></td>
                             
                         
                         </tr>
-                         
-                        <!-- <table>
-                            <thead>
+                        {% endif %}
+                        
                                 
-                            </thead>
-                            <tbody> -->
-                                
-                        {% for key,value in ledger.items  %}
+                        {% for j in i.ledger_set.all %}
 
                         
 
                         <tr class="table-row">
-                            <td colspan="2"><span style="margin-left: 20px;">{{value.ledger_name}} </span></td>
-                            <td style="text-align: end;">{{value.ledger_opening_bal}}</td>
-                            <td></td>
+                            <td colspan="2"><span style="margin-left: 20px;">{{j.ledger_name}} </span></td>
+                            
+                            <td style="text-align: end;">{{l.Debit}}</td>
+                            <td style="text-align: end;">{{l.Credit}}</td>
+                           
                         </tr>
                         {% endfor %}
                            
@@ -98,35 +113,7 @@ cursor:pointer;
                         
                     
                     
-                        
-                        <!-- <tr class="table-row" data-href="{% url 'bank_accounts' %}">
-                            <td colspan="2"   >Bank Accounts</span></td>
-                        
-                            <td style="text-align: end;">8,56,822.00</td>
-                            <td style="text-align: end;">22,000.00</td>
-                        
-                        </tr>
-                        <tr class="table-row">
-                            <td colspan="2"><span style="margin-left: 20px;">Federal Bank</span></td>
-                            <td style="text-align: end;">8,53,150.00</td>
-                            <td></td>
-                        </tr>
-                        <tr class="table-row">
-                            <td colspan="2"><span style="margin-left: 20px;">HDFC</span></td>
-                            <td style="text-align: end;">2,672.00</td>
-                            <td></td>
-                        </tr>
-                        <tr class="table-row">
-                            <td colspan="2"><span style="margin-left: 20px;">Icici Bank</span></td>
-                            <td style="text-align: end;">1,000.00</td>
-                            <td></td>
-                        </tr>
-                        <tr class="table-row">
-                            <td colspan="2"><span style="margin-left: 20px;">SBI</span></td>
-                            <td></td>
-                            <td style="text-align: end;">22,000.00</td>
-                        </tr> -->
-
+                    
                         <tr class="table-row">
                             <th colspan="2" ><h6 class="d-flex align-items-sm-start par p-1 py-1 foot" style="margin-left: 20px;">Grand Total</h6></th>
                             
@@ -159,7 +146,7 @@ cursor:pointer;
 
 <script>
     $(document).ready(function($) {
-        $(".table-row").click(function() {
+        $(".table-row1").click(function() {
             window.document.location = $(this).data("href");
         });
     });
