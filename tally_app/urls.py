@@ -14,7 +14,7 @@ urlpatterns = [
 
     path('cash_bank_summary2/<int:id>',views.cash_bank_summary2,name='cash_bank_summary2'),
 
-    path('ledger_bank',views.ledger_bank,name='ledger_bank'),
+    # path('ledger_bank/<int:id>',views.ledger_bank,name='ledger_bank'),
 
 
     
@@ -30,9 +30,9 @@ urlpatterns = [
 
     
 
-    path('ledger_show',views.ledger_show,name='ledger_show'),
+    path('ledger_show/<int:id>',views.ledger_show,name='ledger_show'),
 
-    path('ledger_monthly_summary',views.ledger_monthly_summary,name='ledger_monthly_summary'),
+    path('ledger_monthly_summary/<int:id>',views.ledger_monthly_summary,name='ledger_monthly_summary'),
 
     
 

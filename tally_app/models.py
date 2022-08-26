@@ -1,3 +1,5 @@
+from contextlib import closing
+from msilib.schema import Class
 from xml.parsers.expat import model
 from django.db import models
 
@@ -7,6 +9,7 @@ from django.db import models
 
 class Group_under(models.Model):
     group_under_Name = models.CharField(max_length=225,default="Null",blank=True)
+    
     def __str__(self):
         return self.group_under_Name
 
@@ -16,12 +19,16 @@ class Ledger(models.Model):
     ledger_name = models.CharField(max_length=225,default="Null",blank=True)
     ledger_alias = models.CharField(max_length=225,default="Null",blank=True)
     group_under =  models.ForeignKey(Group_under,on_delete=models.CASCADE , null=True, blank=True)
-    ledger_opening_bal = models.CharField(max_length=225,default="Null",blank=True)
+    ledger_opening_bal = models.IntegerField(default="Null",blank=True)
+    ledger_opening_bal_type = models.CharField(max_length=225,default="Null",blank=True)
     ledger_type = models.CharField(max_length=225,default="Null",blank=True)
     provide_banking_details =  models.CharField(max_length=225,default="Null",blank=True)
 
+    
+
     def __str__(self):
         return self.ledger_name
+
 
 
 class Ledger_Banking_Details(models.Model):
@@ -98,6 +105,18 @@ class Ledger_Voucher(models.Model):
         return self.ledger.ledger_name
 
 
+class Closing_balance(models.Model):
+    ledger = models.ForeignKey(Ledger, on_delete=models.CASCADE, null=True, blank=True)
+    Closing_balance = models.IntegerField(default="",null=True,blank=True)
+    def __str__(self):
+        return self.ledger.ledger_name
 
 
+class Group_Under_closing_balance(models.Model):
+    group_under = models.ForeignKey(Group_under,on_delete=models.CASCADE)
+    total_closing_balance_debit = models.IntegerField(default="",null=True,blank=True)
+    total_closing_balance_credit = models.IntegerField(default="",null=True,blank=True)
+
+    def __str__(self):
+        return self.group_under.group_under_Name
 

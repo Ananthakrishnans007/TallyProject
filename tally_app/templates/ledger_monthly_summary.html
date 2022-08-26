@@ -15,6 +15,13 @@ cursor:pointer;
 .table-row:hover{
     background-color: rgb(216, 155, 51);
 }
+.table-row1{
+cursor:pointer;
+}
+.table-row1:hover{
+    background-color: rgb(216, 155, 51);
+}    
+  
 
     </style>
 </head>
@@ -34,7 +41,7 @@ cursor:pointer;
                             <tr>
                                 <th rowspan="3"   class="align-middle text-white "> <h6 class="d-flex align-items-sm-start par p-1 py-1" style="margin-left: 20px;">Particular</h6></th>
                                 
-                                <th colspan="3" class="text-center text-white " ><h6><i>Cash</i></h6>
+                                <th colspan="3" class="text-center text-white " ><h6><i>{{ledger_name}}</i></h6>
                                   <h6><strong> ABC PVT.LTD </strong></h6><h6> For 1-Apr-2022</h6></th>
                               </tr>
                               <tr>
@@ -56,21 +63,21 @@ cursor:pointer;
                         
 
                         <tbody>
-                            <tr class="table-row">
+                            <tr class="table-row" data-href="">
                                 <td><i>Opening Balance</i></td>
                                 <td></td>
                                 <td></td>
-                                <td style="text-align: end;"><strong>2,50,00.00 Dr</strong></td>
+                                <td style="text-align: end;"><strong>{{open_balance}}</strong></td>
 
                             </tr>
-                            <tr class="table-row">
+                            <tr class="table-row" data-href="{% url 'ledger_show' le %}">
                                 <td>April</td>
-                                <td style="text-align: end;"><strong>12,900.00</strong></td>
-                                <td style="text-align: end;"><strong>2,42,000.00</strong></td>
-                                <td style="text-align: end;"><strong>20,900.00 Dr</strong></td>
+                                <td style="text-align: end;"><strong>{{total_debit}}</strong></td>
+                                <td style="text-align: end;"><strong>{{total_credit}}</strong></td>
+                                <td style="text-align: end;"><strong>{{current_total1}}</strong></td>
 
                             </tr>
-                            <tr class="table-row">
+                            <tr class="table-row" >
                                 <td>May</td>
                                 <td></td>
                                 <td></td>
@@ -152,9 +159,9 @@ cursor:pointer;
                             <tr class="table-row">
                                 <th  ><h6 class="d-flex align-items-sm-start par p-1 py-1 foot" style="margin-left: 20px;">Grand Total</h6></th>
                                 
-                                <th  style="text-align: end;">12,900.00</th>
-                                <th  style="text-align: end;">2,42,000.00</th>
-                                <th  style="text-align: end;">20,900.00 Dr</th>
+                                <th  style="text-align: end;">{{total_debit}}</th>
+                                <th  style="text-align: end;">{{total_credit}}</th>
+                                <th  style="text-align: end;">{{current_total1}}</th>
                                 
                             </tr>
 
@@ -179,5 +186,12 @@ cursor:pointer;
     </div>
     
 
+    <script>
+        $(document).ready(function($) {
+            $(".table-row").click(function() {
+                window.document.location = $(this).data("href");
+            });
+        });
+    </script>
 
 {% endblock %}

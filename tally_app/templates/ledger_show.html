@@ -4,14 +4,14 @@
 {% block body %}
 
 <head>
-    <style>
-         .table-row{
-cursor:pointer;
-}
-.table-row:hover{
-    background-color: rgb(216, 155, 51);
-}
+    
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    
+        
 
+    </script>
+    <style>
+        
         
     </style>
 </head>
@@ -26,7 +26,7 @@ cursor:pointer;
                 <div class="row  " style="height: 50px;">
                 <div class="col ">
                     <h6>
-                    <span class=" d-flex justify-content-start" style="margin-top: 8px;"> Ledger : <strong>ANN ELEGENT </strong> </span>
+                    <span class=" d-flex justify-content-start" style="margin-top: 8px;"> Ledger : &nbsp;<strong>{{ledger_name}} </strong> </span>
                     <span class="d-flex  justify-content-end " style="margin-top: -15px;"> 1-Apr-22 to 30-Apr-22</span>
                 </h6>
                 </div>
@@ -34,7 +34,7 @@ cursor:pointer;
                 <div class="table-responsive">
                     <table  class="table  " style="background-color: rgba(33,57,77,255);color:#fff;">
                         <thead >
-                        <tr  class="table-row">
+                        <tr>
                           <th style="text-align: center;">Date</th>
                           <th >Particulars</th>
                           <th >Vch Type</th>
@@ -46,173 +46,82 @@ cursor:pointer;
                     </thead>
 
                     <tbody >
-                    <tr  class="table-row">
-                        <td style="text-align: center;">1-Apr-22</td>
-                        <td ><strong>PURCHASE ACCOUNT</strong></td>
-                        <td><strong>Purchase</strong></td>
-                        <td style="text-align: right ;">1</td>
-                        <td style="text-align: right ;"><strong></strong></td>
-                        <td style="text-align: right ;"><strong>18,100.00</strong></td>
+                        {% for i in voucher %}
+                    <tr>
+                        <td style="text-align: center;">{{i.Date}}</td>
+                        <td ><strong>{{i.Particualrs}}</strong></td>
+                        <td><strong>{{i.Vch_Type}}</strong></td>
+                        <td style="text-align: right ;">{{i.Vch_No}}</td>
+                        <td class="debit" style="text-align: right ;"><strong>
+                            {% if i.Debit %}
+                            {{i.Debit}}
+                            {% endif %}
+                        </strong></td>
+                        <td style="text-align: right ;"><strong>
+                            
+                            {% if i.Credit %}
+                            {{i.Credit}}
+                            {% endif %}
+                            </strong></td>
 
 
                     </tr>
-                    <tr  class="table-row">
-                        <td style="text-align: center;">1-Apr-22</td>
-                        <td ><strong>SBI</strong></td>
-                        <td><strong>Payment</strong></td>
-                        <td style="text-align: right ;">2</td>
-                        <td style="text-align: right ;"><strong>20,000.00</strong></td>
-                        <td style="text-align: right ;"><strong></strong></td>
-
-
-                    </tr>
-                    <tr  class="table-row">
-                        <td style="text-align: center;">1-Apr-22</td>
-                        <td ><strong>PURCHASE ACCOUNT</strong></td>
-                        <td><strong>Purchase</strong></td>
-                        <td style="text-align: right ;">2</td>
-                        <td style="text-align: right ;"><strong></strong></td>
-                        <td style="text-align: right ;"><strong>6,500.00</strong></td>
-
-
-
-                    </tr>
-                    <tr  class="table-row">
-                        <td style="text-align: center;">1-Apr-22</td>
-                        <td ><strong>PURCHASE ACCOUNT</strong></td>
-                        <td><strong>Purchase</strong></td>
-                        <td style="text-align: right ;">3</td>
-                        <td style="text-align: right ;"><strong></strong></td>
-                        <td style="text-align: right ;"><strong>75,000.00</strong></td>
-
-
-
-                    </tr>
-                    <tr  class="table-row">
-                        <td style="text-align: center;">1-Apr-22</td>
-                        <td><strong>Federal Bank</strong></td>
-                        <td><strong>Payment</strong></td>
-                        <td style="text-align: right ;">6</td>
-                        <td style="text-align: right ;"><strong>30,000.00</strong></td>
-                        <td style="text-align: right ;"><strong></strong></td>
-
-
-
-                    </tr>
-                    <tr  class="table-row">
-                        <td style="text-align: center;">1-Apr-22</td>
-                        <td><strong>Cash</strong></td>
-                        <td><strong>Payment</strong></td>
-                        <td style="text-align: right ;">8</td>
-                        <td style="text-align: right ;"><strong>4,000.00</strong></td>
-                        <td style="text-align: right ;"><strong></strong></td>
-
-
-
-                    </tr>
-                   
-                    <tr  class="table-row">
-                        <td style="text-align: center;">1-Apr-22</td>
-                        <td><strong>Sales</strong></td>
-                        <td><strong>Sales</strong></td>
-                        <td style="text-align: right ;">6</td>
-                        <td style="text-align: right ;"><strong>3,018.00</strong></td>
-                        <td style="text-align: right ;"><strong></strong></td>
-
-
-
-                    </tr>
-                    <tr  class="table-row">
-                        <td style="text-align: center;">1-Apr-22</td>
-                        <td><strong>Purchase</strong></td>
-                        <td><strong>Purchase</strong></td>
-                        <td style="text-align: right ;">6</td>
-                        <td style="text-align: right ;"><strong></strong></td>
-                        <td style="text-align: right ;"><strong>2,00,000.00</strong></td>
-
-
-
-                    </tr>
-                    <tr  class="table-row">
-                        <td style="text-align: center;">1-Apr-22</td>
-                        <td><strong>Federal Bank</strong></td>
-                        <td><strong>Payment</strong></td>
-                        <td style="text-align: right ;">11</td>
-                        <td style="text-align: right ;"><strong>1,000.00</strong></td>
-                        <td style="text-align: right ;"><strong></strong></td>
-
-
-
-                    </tr>
-                    <tr  class="table-row">
-                        <td style="text-align: center;">1-Apr-22</td>
-                        <td><strong>Sales</strong></td>
-                        <td><strong>sales</strong></td>
-                        <td style="text-align: right ;">7</td>
-                        <td style="text-align: right ;"><strong>10,400.00</strong></td>
-                        <td style="text-align: right ;"><strong></strong></td>
-
-
-
-                    </tr>
-                    <tr  class="table-row">
-                        <td style="text-align: center;">1-Apr-22</td>
-                        <td><strong>Purchase</strong></td>
-                        <td><strong>Purchase</strong></td>
-                        <td style="text-align: right ;">8</td>
-                        <td style="text-align: right ;"><strong></strong></td>
-                        <td style="text-align: right ;"><strong>1,440.00</strong></td>
-
-
-
-                    </tr>
-
-                    <tr  class="table-row">
-                        <td style="text-align: center;">1-Apr-22</td>
-                        <td><strong>Purchase</strong></td>
-                        <td><strong>Purchase</strong></td>
-                        <td style="text-align: right ;">9</td>
-                        <td style="text-align: right ;"><strong></strong></td>
-                        <td style="text-align: right ;"><strong>450.00</strong></td>
-
-
-
-                    </tr>
-
-
-
-                   
+                    {% endfor %}
+                
 
 
                     
-
-                    <tr  class="table-row">
+                    {% for i in ledger %}
+                    <tr>
                         <td colspan="4" style="text-align: right;"> Opening Balance : <br>
                             Current Total :</td>
-                            <td style="text-align: right;"><br>
-                                <strong>68,418.00</strong>
+                            {% if i.ledger_opening_bal_type == "Dr" %}
+                            <td style="text-align: right;">
+
+                                <strong>{{i.ledger_opening_bal}}</strong>
+
+                                <br>
+                                <strong>{{total_debit}}</strong>
    
                             </td>
-                            <td style="text-align: right;"><strong>10,000.00</strong><br>
-                                <strong>3,01,490.00</strong></td>
+                            <td style="text-align: right;" id=""><strong></strong><br>
+                                <strong>{{total_credit}}</strong></td>
+
+                                {% else %}
+                                <td style="text-align: right;">
+
+                                    <strong></strong>
+    
+                                    <br>
+                                    <strong>{{total_debit}}</strong>
+       
+                                </td>
+                                <td style="text-align: right;" id=""><strong>{{i.ledger_opening_bal}}</strong><br>
+                                    <strong>{{total_credit}}</strong></td>
+    
+                                {% endif %}
    
                         
                     </tr>
                     
-                    <tr  class="table-row">
+                    <tr>
                         <td colspan="4" style="text-align: right;"><strong>Closing Balance : </strong>  
                         </td>
+                            {% if i.ledger_opening_bal_type == "Dr" %}
                             
+                            <td style="text-align: right;"><strong>{{current_total1}}</strong></td>
+                            <td style="text-align: right;"><strong></strong></td>
+                            {% else %}
+                            <td style="text-align: right;"><strong></strong></td>
+                            <td style="text-align: right;"><strong>{{current_total2}}</strong></td>
                             
-                            <td></td>
-                            <td style="text-align: right;"><strong>2,43,072.00</strong></td>
-                            
+                            {% endif %}
    
                         
                     </tr>
 
 
-
+                {% endfor %}
                        
                     
                       

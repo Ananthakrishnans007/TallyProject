@@ -86,10 +86,32 @@ cursor:pointer;
                         {% if i.ledger_set.all.exists %}
                         
                           <tr class="table-row1"  data-href="{% url 'cash_bank_summary2' i.id %}">
+                            {% if i.group_under_closing_balance_set.all.exists %}
+                            {% for m in i.group_under_closing_balance_set.all %}
                             <td colspan="2"  >  {{ i.group_under_Name }}  </td>
-                            <td style="text-align: end;" id="totalamount"></td>
-                            <td></td>
                             
+                            
+
+                            
+                            <td style="text-align: end;" ><strong>
+                                {% if m.total_closing_balance_debit %}
+                                {{m.total_closing_balance_debit }}
+                                {% endif %}
+                            </strong></td>
+                            <td style="text-align: end;" ><strong>
+                                {% if m.total_closing_balance_credit %}
+                                {{m.total_closing_balance_credit }}
+                                {% endif %}
+                            </strong></td>
+                            
+                            
+                            
+                           {% endfor %}
+                           {% else %}
+                           <td colspan="2"  >  {{ i.group_under_Name }}  </td>
+                            <td style="text-align: end;" ><strong></strong></td>
+                            <td style="text-align: end;" ><strong></strong></td>
+                           {% endif %}
                         
                         </tr>
                         {% endif %}
@@ -101,10 +123,23 @@ cursor:pointer;
 
                         <tr class="table-row">
                             <td colspan="2"><span style="margin-left: 20px;">{{j.ledger_name}} </span></td>
+                            {% if j.closing_balance_set.all.exists %}
+                            {% for l in j.closing_balance_set.all %}
                             
-                            <td style="text-align: end;">{{l.Debit}}</td>
-                            <td style="text-align: end;">{{l.Credit}}</td>
-                           
+                            {% if j.ledger_opening_bal_type == "Dr" %}
+                            <td style="text-align: end;"><strong>{{l.Closing_balance}}</strong></td>
+                            <td style="text-align: end;"><strong></strong></td>
+                            {% else %}
+                            <td style="text-align: end;"><strong></strong></td>
+                            <td style="text-align: end;"><strong>{{l.Closing_balance}}</strong></td>
+                            {% endif %}
+
+
+                            {% endfor %}
+                            {% else %}
+                            <td style="text-align: end;"></td>
+                            <td></td>
+                            {% endif %}
                         </tr>
                         {% endfor %}
                            
@@ -117,8 +152,9 @@ cursor:pointer;
                         <tr class="table-row">
                             <th colspan="2" ><h6 class="d-flex align-items-sm-start par p-1 py-1 foot" style="margin-left: 20px;">Grand Total</h6></th>
                             
-                            <th   style="text-align: end;">8,77,722.00</th>
-                            <th  style="text-align: end;">22,000.00</th>
+                            
+                            <th   style="text-align: end;">{{total_debit}}</th>
+                            <th  style="text-align: end;">{{total_credit}}</th>
                             
                         </tr>
 

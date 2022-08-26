@@ -1,4 +1,5 @@
 from multiprocessing import context
+from tokenize import group
 from django.shortcuts import render, redirect
 from .models import *
 from django.contrib import messages
@@ -15,12 +16,25 @@ def Index(request):
 def cash_bank_summary(request):
 
     group = Group_under.objects.all()
-    voucher = Ledger_Voucher.objects.all()
+
+    balance = Group_Under_closing_balance.objects.all()
+    total_debit=0
+    total_credit=0
+
+    for i in balance:
+        total_debit += i.total_closing_balance_debit
+        total_credit += i.total_closing_balance_credit
+
+    
     
     context = {
         
         'group':group,
-        'voucher' :voucher,
+        'total_debit':total_debit,
+        'total_credit':total_credit
+
+
+        
 
     }
 
@@ -52,24 +66,75 @@ def ledger_cash(request):
 
 def cash_bank_summary2(request,id):
     ledger = Ledger.objects.filter(group_under=id)
+    
+    total_debit=0
+    total_credit=0
+
+    for i in ledger:
+        if i.ledger_opening_bal_type == 'Dr':
+            clo =Closing_balance.objects.filter(ledger= i.id)
+            for j in clo:
+
+                total_debit += j.Closing_balance
+        else:
+            clo =Closing_balance.objects.filter(ledger= i.id)
+            for j in clo:
+
+                total_credit += j.Closing_balance
+
+    if Group_Under_closing_balance.objects.filter(group_under=id):
+
+        gp = Group_Under_closing_balance.objects.get(group_under=id)
+        group = Group_under.objects.get(id=id)
+        gp.group_under= group
+        gp.total_closing_balance_debit = total_debit
+        gp.total_closing_balance_credit =  total_credit
+        gp.save()
+
+       
+        
+    else:
+        gp = Group_Under_closing_balance()
+        group = Group_under.objects.get(id=id)
+        gp.group_under= group
+        gp.total_closing_balance_debit = total_debit
+        gp.total_closing_balance_credit =  total_credit
+        gp.save()
+
+
+        
+
+    
+
+
 
     context ={
         'ledger' :ledger,
+        'total_debit':total_debit,
+        'total_credit':total_credit,
+        
+
+
     }
 
 
 
     return render(request,'cash_bank_summary2.html',context)    
 
-def ledger_bank(request):
-
-    voucher = Ledger_Voucher.objects.filter(ledger=1)
-    ledger = Ledger.objects.filter(id=1)
-    le = Ledger.objects.get(id=1)
+def ledger_show(request,id):
+    
+    le = Ledger.objects.get(id=id)
+    voucher = Ledger_Voucher.objects.filter(ledger=le)
+    ledger = Ledger.objects.filter(id=le.id)
+    
     ledger_n = le.ledger_name
 
     total_debit=0 
     total_credit=0 
+    total_balance1 =0
+    total_balance2 =0
+    current_total1 = 0
+    current_total2 =0
     for i in voucher:
         if i.Debit :
 
@@ -78,7 +143,37 @@ def ledger_bank(request):
             total_credit = total_credit + i.Credit
 
 
+    total_balance1 = le.ledger_opening_bal+total_debit
 
+    total_balance2 = le.ledger_opening_bal+total_credit
+
+    
+    
+    if le.ledger_opening_bal_type =="Dr":
+        current_total1 = total_balance1 - total_credit
+        
+    else:
+        current_total2 = total_balance2 - total_debit
+
+    print(current_total1)    
+    print(current_total2)  
+
+    if Closing_balance.objects.filter(ledger=le):
+
+        cl = Closing_balance.objects.get(ledger=le)
+        cl.ledger = le
+        cl.Closing_balance = current_total1
+        cl.save()
+        
+    else:
+        cl = Closing_balance()
+        cl.ledger = le
+        cl.Closing_balance = current_total1
+        cl.save()
+        
+
+    
+      
 
     context={
         'voucher' : voucher,
@@ -86,12 +181,15 @@ def ledger_bank(request):
         'ledger_name':ledger_n,
         'total_debit':total_debit,
         'total_credit':total_credit,
+        'current_total1':current_total1,
+        'current_total2' :current_total2,
+        
 
 
     }
+    
 
-
-    return render(request,'ledger_bank.html',context)    
+    return render(request,'ledger_show.html',context)    
 
 
 
@@ -120,12 +218,59 @@ def ledger(request):
 
     return render(request,'ledger.html',context ) 
 
-def ledger_show(request):
-    return render(request,'ledger_show.html') 
+# def ledger_bank(request):
+#     return render(request,'ledger_bank.html') 
 
 
-def ledger_monthly_summary(request):
-    return render(request,'ledger_monthly_summary.html') 
+def ledger_monthly_summary(request,id):
+    le = Ledger.objects.get(id=id)
+    voucher = Ledger_Voucher.objects.filter(ledger=le)
+    ledger = Ledger.objects.filter(id=le.id)
+    
+    ledger_n = le.ledger_name
+
+   
+    total_debit=0 
+    total_credit=0 
+    total_balance1 =0
+    total_balance2 =0
+    current_total1 = 0
+    current_total2 =0
+    open_balance = 0
+    for i in voucher:
+        if i.Debit :
+
+            total_debit +=  i.Debit
+        if i.Credit :
+            total_credit = total_credit + i.Credit
+    total_balance1 = le.ledger_opening_bal+total_debit
+
+    total_balance2 = le.ledger_opening_bal+total_credit
+    
+    current_total1 =total_balance1-total_credit
+    current_total2 =total_balance2-total_credit
+
+    open_balance = le.ledger_opening_bal
+
+    le_id = le.id
+    
+
+    context={
+        'voucher' : voucher,
+        'ledger' :ledger,
+        'ledger_name':ledger_n,
+        'total_debit':total_debit,
+        'total_credit':total_credit,
+        'current_total1':current_total1,
+        'open_balance':open_balance,
+        'le' :le_id,
+
+
+    }
+
+    print(le_id )
+
+    return render(request,'ledger_monthly_summary.html',context) 
 
 
 def save_ledger(request):
@@ -133,8 +278,21 @@ def save_ledger(request):
         # Ledger Basic
         Lname = request.POST.get('ledger_name', False)
         Lalias = request.POST.get('ledger_alias', False)
-        Lunder = request.POST.get('group_under', False)
+
+        c = request.POST['group_under']
+        group =Group_under.objects.get(id=c)
+
+        
+        
+
+
+        Lunder = group
+
+
+
         Lopening_bal = request.POST.get('ledger_opening_bal', False)
+        L_ob_type = request.POST['Type']
+
         typ_of_ledg = request.POST.get('ledger_type', False)
         provide_banking = request.POST.get('provide_banking_details', False)
 
@@ -198,6 +356,7 @@ def save_ledger(request):
             ledger_opening_bal=Lopening_bal,
             ledger_type=typ_of_ledg,
             provide_banking_details=provide_banking,
+            ledger_opening_bal_type = L_ob_type,
         )
         Lmdl.save()
         idd = Lmdl

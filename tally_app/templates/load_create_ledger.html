@@ -56,7 +56,7 @@
                                     <option value="">----Select-----</option>
 
                                     {% for i in group %}
-                                    <option value="{{i.group_under_Name.id}}">{{i.group_under_Name}}</option>
+                                    <option value="{{i.id}}">{{i.group_under_Name}}</option>
                                     {% endfor %}
 
                                     <!-- <option value="Bank Account">Bank Accouts</option>
@@ -1505,8 +1505,16 @@ function bill(){
             </div><div class="row container-fluid  p-2 my-2">
                 <div class="col-sm-4 m-0 p-0"></div>
                 <div class="col-sm-2 m-0 p-0"> <p for="setgst" class="text-center p-2 m-0" style="height:100%;" >Opening balance (on 1-Aprl-22)</p></div>
-                <div class="col-sm-2 m-0 p-0"><input type="text" class="form-control" name="ledger_opening_bal" id="opening_balance" placeholder=""></div>
-                <div class="col-sm-4 m-0 p-0"></div>
+                <div class="col-sm-2 m-0 p-0"><input type="text" class="form-control " name="ledger_opening_bal" id="opening_balance" placeholder="">
+                    
+                </div>
+                <div class="col-sm-4 m-0 p-0">
+                    <select name="Type" class="form-control " style="margin-left: 10px; width:70px">
+                        <option value="Dr">Dr</option>
+                        <option value="Cr">Cr</option>
+                    </select>
+                    
+                </div>
             </div>
                 <div class="enter w-100 py-4"><button class="btn btn-info w-25 px-4">CREATE</button></div>   
                 
