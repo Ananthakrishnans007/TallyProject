@@ -1,3 +1,4 @@
+from calendar import month, month_name
 from contextlib import closing
 from msilib.schema import Class
 from xml.parsers.expat import model
@@ -92,25 +93,6 @@ class Ledger_sundry(models.Model):
     
 
 
-class Ledger_Voucher(models.Model):
-    ledger = models.ForeignKey(Ledger, on_delete=models.CASCADE, null=True, blank=True)
-    Date = models.DateField()
-    Particualrs = models.CharField(max_length=225)
-    Vch_Type = models.CharField(max_length=225)
-    Vch_No = models.CharField(max_length=225)
-    Debit = models.IntegerField(default="",null=True,blank=True)
-    Credit = models.IntegerField(default="",null=True,blank=True)
-
-    def __str__(self):
-        return self.ledger.ledger_name
-
-
-class Closing_balance(models.Model):
-    ledger = models.ForeignKey(Ledger, on_delete=models.CASCADE, null=True, blank=True)
-    Closing_balance = models.IntegerField(default="",null=True,blank=True)
-    def __str__(self):
-        return self.ledger.ledger_name
-
 
 class Group_Under_closing_balance(models.Model):
     group_under = models.ForeignKey(Group_under,on_delete=models.CASCADE)
@@ -120,3 +102,42 @@ class Group_Under_closing_balance(models.Model):
     def __str__(self):
         return self.group_under.group_under_Name
 
+class LedgerMonths (models.Model):
+    month_name=models.CharField(max_length=255)
+    def __str__(self):
+        return self.month_name
+
+class Leger_Month_closing(models.Model):
+    Ledger = models.ForeignKey(Ledger,on_delete=models.CASCADE, null=True, blank=True)  
+    month = models.ForeignKey(LedgerMonths,on_delete=models.CASCADE, null=True, blank=True)   
+    Closing_balance = models.IntegerField(default="",null=True,blank=True)
+    type = models.CharField(max_length=225)
+    debit = models.IntegerField(default="",null=True,blank=True)
+    credit =models.IntegerField(default="",null=True,blank=True)
+
+    def __str__(self):
+        return self.ledger.ledger_name
+
+    
+         
+class Ledger_Voucher(models.Model):
+    ledger = models.ForeignKey(Ledger, on_delete=models.CASCADE, null=True, blank=True)
+    
+    Date = models.DateField()
+    Particualrs = models.CharField(max_length=225)
+    Vch_Type = models.CharField(max_length=225)
+    Vch_No = models.CharField(max_length=225)
+    Debit = models.IntegerField(default="",null=True,blank=True)
+    Credit = models.IntegerField(default="",null=True,blank=True)
+    month = models.ForeignKey(LedgerMonths,on_delete=models.CASCADE, null=True, blank=True)   
+
+    def __str__(self):
+        return self.ledger.ledger_name
+
+class TotalClosing_balance(models.Model):
+    ledger = models.ForeignKey(Ledger, on_delete=models.CASCADE, null=True, blank=True)
+    Total_Closing_balance = models.IntegerField(default="",null=True,blank=True)
+    type = models.CharField(max_length=225)
+
+    def __str__(self):
+        return self.ledger.ledger_name

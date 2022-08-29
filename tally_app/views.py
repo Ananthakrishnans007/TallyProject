@@ -74,13 +74,17 @@ def cash_bank_summary2(request,id):
         if i.ledger_opening_bal_type == 'Dr':
             clo =Closing_balance.objects.filter(ledger= i.id)
             for j in clo:
+                if j.Closing_balance :
+                    total_debit += j.Closing_balance
 
-                total_debit += j.Closing_balance
+                
         else:
             clo =Closing_balance.objects.filter(ledger= i.id)
             for j in clo:
+                if j.Closing_balance :
+                    total_credit += j.Closing_balance
 
-                total_credit += j.Closing_balance
+                
 
     if Group_Under_closing_balance.objects.filter(group_under=id):
 
@@ -151,26 +155,85 @@ def ledger_show(request,id):
     
     if le.ledger_opening_bal_type =="Dr":
         current_total1 = total_balance1 - total_credit
+        if (current_total1 <0):
+            current_total1 = -1*current_total1
+
+            if TotalClosing_balance.objects.filter(ledger=le.id):
+
+                cl = TotalClosing_balance.objects.get(ledger=le)
+                cl.ledger = le
+                cl.Closing_balance = current_total1
+                cl.save()
+                print(cl.Closing_balance)
+        
+            else:
+                cl = TotalClosing_balance()
+                cl.ledger = le
+                cl.Closing_balance = current_total1
+                print(cl.Closing_balance)
+                cl.save()
+        else:
+            if TotalClosing_balance.objects.filter(ledger=le.id):
+
+                cl = TotalClosing_balance.objects.get(ledger=le)
+                cl.ledger = le
+                cl.Closing_balance = current_total1
+                cl.save()
+                print(cl.Closing_balance)
+        
+            else:
+                cl = TotalClosing_balance()
+                cl.ledger = le
+                cl.Closing_balance = current_total1
+                print(cl.Closing_balance)
+                cl.save()
+
+        
+        
+
         
     else:
         current_total2 = total_balance2 - total_debit
+        if (current_total2 <0):
+            current_total2 = -1*current_total2
+            print(current_total2) 
+            if TotalClosing_balance.objects.filter(ledger=le.id):
 
-    print(current_total1)    
-    print(current_total2)  
-
-    if Closing_balance.objects.filter(ledger=le):
-
-        cl = Closing_balance.objects.get(ledger=le)
-        cl.ledger = le
-        cl.Closing_balance = current_total1
-        cl.save()
+                cl = TotalClosing_balance.objects.get(ledger=le)
+                cl.ledger = le
+                cl.Closing_balance = current_total2
+                cl.save()
+                print(cl.Closing_balance)
         
-    else:
-        cl = Closing_balance()
-        cl.ledger = le
-        cl.Closing_balance = current_total1
-        cl.save()
+            else:
+                cl = TotalClosing_balance()
+                cl.ledger = le
+                cl.Closing_balance = current_total2
+                print(cl.Closing_balance)
+                cl.save()
+        else:
+            if TotalClosing_balance.objects.filter(ledger=le.id):
+
+                cl = TotalClosing_balance.objects.get(ledger=le)
+                cl.ledger = le
+                cl.Closing_balance = current_total2
+                cl.save()
+                print(cl.Closing_balance)
         
+            else:
+                cl = TotalClosing_balance()
+                cl.ledger = le
+                cl.Closing_balance = current_total2
+                print(cl.Closing_balance)
+                cl.save()
+
+        
+
+
+       
+     
+
+    
 
     
       
@@ -229,6 +292,8 @@ def ledger_monthly_summary(request,id):
     
     ledger_n = le.ledger_name
 
+    # mo =month.objects.all()
+
    
     total_debit=0 
     total_credit=0 
@@ -253,6 +318,9 @@ def ledger_monthly_summary(request,id):
     open_balance = le.ledger_opening_bal
 
     le_id = le.id
+    type =le.ledger_opening_bal_type
+
+    
     
 
     context={
@@ -262,8 +330,11 @@ def ledger_monthly_summary(request,id):
         'total_debit':total_debit,
         'total_credit':total_credit,
         'current_total1':current_total1,
+        'current_total2':current_total2,
         'open_balance':open_balance,
         'le' :le_id,
+        'type':type,
+        'mo':mo,
 
 
     }

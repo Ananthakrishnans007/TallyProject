@@ -4,6 +4,23 @@
 {% block body %}
 
 <head>
+    <script type="text/javascript">
+        function searchrecords()
+        {
+            var input,ul,li,filter;
+            input=document.getElementById("search");
+            filter=input.value.toUpperCase();
+            ul=document.getElementById("ulid")
+            li=ul.getElementsByTagName("li")
+            for(i=0;i<li.length;i++){
+                let li = ul[i].getElementsByTagName('li')[0]
+
+            }
+            
+
+        }
+
+    </script>
     <style>
         
         thead th {
@@ -36,7 +53,7 @@
         width : 400px;
         background-color: rgba(33,57,77,255);color:#fff;
         margin: auto;
-        height: 500px;
+        height: auto;
 
     }
     .head{
@@ -63,17 +80,28 @@
     margin-top: -15px;
     list-style:none;
  }
- .list{
+
+ tr{
     margin-left: -15px;
     cursor: pointer;
+    
  }
- .list:hover{
+ tr:hover{
     background-color: rgb(235, 176, 14);
 
  }
- .list a{
+ tr a{
     color:#FFF;
     padding-left: 10px;
+
+ }
+ .tb{
+    width: 100%;
+    margin-top: -16px;
+    
+ }
+ .selected{
+    background-color: rgb(235, 176, 14);
 
  }
    
@@ -93,7 +121,7 @@
                     <form style="margin-top: 30px;">
                         <div class="form-group">
                             <label style="font-size: 18px; text-decoration: underline #fff; margin-top: 10px;">Name of Ledger</label>
-                            <input type="text" class="input"  >
+                            <input type="text" class="input"  id="search" onkeyup="searchFun()">
                           </div>
 
                     </form>
@@ -107,11 +135,29 @@
                     <div class="create" ><a href="{% url 'create_ledger' %}" style="color:#FFF ;">Create</a> </div>
                     <hr>
 
-                    <ul class="ledgers">
+                    <table id="myTable" class="tb">
+                        {% for i in ledger %}
+                        <tr class="tr" style="height: 20px;">
+                            
+                            <td>
+                                
+                        <a href="{% url 'ledger_show' i.id %}">{{i.ledger_name}}</a>
+                        
+                            </td>
+                           
+                        </tr>
+                        {% endfor %}
+                    </table>
+
+
+
+                    <!-- <div class="box2" id="box2">
+                    <ul class="ledgers" id="ulid">
                         {% for i in ledger %}
                         <li class="list" ><a href="{% url 'ledger_show' i.id %}">{{i.ledger_name}}</a></li>
                         {% endfor %}
                       </ul> 
+                      </div> -->
                     <!-- <label class="ledgers"> </label>
                     <label class="ledgers"> Abc Pvt Ltd</label>
  -->
@@ -135,5 +181,78 @@
             </div>
         </div>
     </div>
+
+    <script>
+        const searchFun = () =>{
+            let filter = document.getElementById('search').value.toUpperCase();
+            let myTable = document.getElementById('myTable');
+            let tr = myTable.getElementsByTagName('tr')
+
+            for(var i=0; i<tr.length;i++){
+                let td = tr[i].getElementsByTagName('td')[0];
+
+                
+
+                if (td){
+                    let textvlue = td.textContent || td.innerHTML;
+                    if (textvlue.toUpperCase().indexOf(filter) > -1){
+                        tr[i].style.display = "";
+                        tr[i].classList.toggle("selected")
+                        
+
+                    }else{
+                        tr[i].style.display = "none";
+                        
+                        
+                    }
+                }
+
+
+            }
+
+
+
+        }
+
+       
+    </script>
+
+      <!-- <script type="text/javascript">
+        function searchFun(){
+            
+            input = document.getElementById("search");
+            filter=input.value.toUpperCase();
+            table=document.getElementById("myTable");
+            tr = table.getElementsByTagName("tr");
+            for (var i=0;i<tr.length;i++)
+            {
+                td = tr[i].getElementsByTagName("td")[0];
+                if (td)
+                {
+                    textdata = td.innerText;
+                    if(textdata.toUpperCase().indexOf(filter)>-1)
+                    {
+                        
+                        tr[i].style.display=""
+                        tr[i].classList.toggle("selected")
+                        
+                        
+
+                        
+                        
+                    }
+                    else
+                    {   
+                        tr[i].style.display="None"
+                        
+                        
+                        
+                    }
+                }
+            
+            }
+            
+        }
+    </script> -->
 
 {% endblock %}

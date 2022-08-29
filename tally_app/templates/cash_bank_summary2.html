@@ -62,11 +62,19 @@ cursor:pointer;
                             {% if i.closing_balance_set.all.exists %}
                             {% for j in i.closing_balance_set.all %}
                             {% if i.ledger_opening_bal_type == "Dr" %}
-                            <td style="text-align: end;"><strong>{{j.Closing_balance}}</strong></td>
+                            <td style="text-align: end;"><strong>
+                                {% if j.Closing_balance %}
+                                {{j.Closing_balance}}
+                                {% endif %}
+                            </strong></td>
                             <td><strong></strong></td>
                             {% else %}
                             <td style="text-align: end;"><strong></strong></td>
-                            <td style="text-align: end;"><strong>{{j.Closing_balance}}</strong></td>
+                            <td style="text-align: end;"><strong>
+                                {% if j.Closing_balance %}
+                                {{j.Closing_balance}}
+                                {% endif %}
+                            </strong></td>
                             {% endif %}
                             
                             {% endfor %}

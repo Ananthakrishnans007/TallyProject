@@ -67,17 +67,22 @@ cursor:pointer;
                                 <td><i>Opening Balance</i></td>
                                 <td></td>
                                 <td></td>
-                                <td style="text-align: end;"><strong>{{open_balance}}</strong></td>
+                                <td style="text-align: end;"><strong>{{open_balance}}&nbsp;{{type}}</strong></td>
 
                             </tr>
+                            {% for i in mo %}
+                            
                             <tr class="table-row" data-href="{% url 'ledger_show' le %}">
-                                <td>April</td>
+                                <td>{{i.month_name}}</td>
                                 <td style="text-align: end;"><strong>{{total_debit}}</strong></td>
                                 <td style="text-align: end;"><strong>{{total_credit}}</strong></td>
                                 <td style="text-align: end;"><strong>{{current_total1}}</strong></td>
 
                             </tr>
-                            <tr class="table-row" >
+                            
+                            {% endfor %}
+
+                            <!-- <tr class="table-row" >
                                 <td>May</td>
                                 <td></td>
                                 <td></td>
@@ -153,7 +158,7 @@ cursor:pointer;
                                 <td></td>
                                 <td style="text-align: end;"><strong></strong></td>
 
-                            </tr>
+                            </tr> -->
 
 
                             <tr class="table-row">
