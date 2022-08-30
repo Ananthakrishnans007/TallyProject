@@ -70,17 +70,53 @@ cursor:pointer;
                                 <td style="text-align: end;"><strong>{{open_balance}}&nbsp;{{type}}</strong></td>
 
                             </tr>
+                            
                             {% for i in mo %}
                             
-                            <tr class="table-row" data-href="{% url 'ledger_show' le %}">
+                            
+                            
+                            <tr class="table-row" data-href="{% url 'ledger_show' le.id i.id %}">
                                 <td>{{i.month_name}}</td>
-                                <td style="text-align: end;"><strong>{{total_debit}}</strong></td>
-                                <td style="text-align: end;"><strong>{{total_credit}}</strong></td>
-                                <td style="text-align: end;"><strong>{{current_total1}}</strong></td>
+                                
+                                 
+                                {% if i.leger_month_closing_set.all %}
+                                 
+                                {% for j in i.leger_month_closing_set.all %}
+                                 
+                                    {% if j.Ledger == le %}
+
+                                 
+                                 
+                                        <td style="text-align: end;"><strong>{{j.debit }}</strong></td>
+                                        <td style="text-align: end;"><strong>{{j.credit}}</strong></td>
+                                        <td style="text-align: end;"><strong>{{j.Closing_balance}} &nbsp; {{j.type}}</strong></td>
+                                    
+                                            
+                                
+                              
+                                    {% endif %}
+                                    
+
+                                
+
+                               
+                                
+                                {% endfor %}
+                                
+                                
+
+                                 {% else%}
+                                 <td style="text-align: end;"><strong></strong></td>
+                                 <td style="text-align: end;"><strong></strong></td>
+                                 <td style="text-align: end;"><strong></strong></td>
+                                 {% endif %}
 
                             </tr>
                             
                             {% endfor %}
+
+                           
+                            
 
                             <!-- <tr class="table-row" >
                                 <td>May</td>
@@ -166,7 +202,7 @@ cursor:pointer;
                                 
                                 <th  style="text-align: end;">{{total_debit}}</th>
                                 <th  style="text-align: end;">{{total_credit}}</th>
-                                <th  style="text-align: end;">{{current_total1}}</th>
+                                <th  style="text-align: end;">{{closing_balance}}&nbsp;{{type}}</th>
                                 
                             </tr>
 

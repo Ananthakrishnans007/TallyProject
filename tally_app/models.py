@@ -115,8 +115,9 @@ class Leger_Month_closing(models.Model):
     debit = models.IntegerField(default="",null=True,blank=True)
     credit =models.IntegerField(default="",null=True,blank=True)
 
-    def __str__(self):
-        return self.ledger.ledger_name
+    
+
+    
 
     
          

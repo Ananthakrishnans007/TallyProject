@@ -123,21 +123,21 @@ cursor:pointer;
 
                         <tr class="table-row">
                             <td colspan="2"><span style="margin-left: 20px;">{{j.ledger_name}} </span></td>
-                            {% if j.closing_balance_set.all.exists %}
-                            {% for l in j.closing_balance_set.all %}
+                            {% if j.totalclosing_balance.all.exists %}
+                            {% for l in j.totalclosing_balance_set.all %}
                             
                             {% if j.ledger_opening_bal_type == "Dr" %}
                             <td style="text-align: end;"><strong>
-                                {% if l.Closing_balance %}
-                                {{l.Closing_balance}}
+                                {% if l.Total_Closing_balance  %}
+                                {{l.Total_Closing_balance }}
                                 {% endif %}
                             </strong></td>
                             <td style="text-align: end;"><strong></strong></td>
                             {% else %}
                             <td style="text-align: end;"><strong></strong></td>
                             <td style="text-align: end;"><strong>
-                                {% if l.Closing_balance %}
-                                {{l.Closing_balance}}
+                                {% if l.Total_Closing_balance  %}
+                                {{l.Total_Closing_balance }}
                                 {% endif %}
                             </strong></td>
                             {% endif %}
