@@ -162,7 +162,11 @@ def ledger_show(request,id,pk):
                     mon = LedgerMonths.objects.get(id=pk)
                     cl.month = mon 
                     cl.Closing_balance = current_total1
-                    cl.type = 'Dr'
+                    if total_balance1 >total_credit:
+                        cl.type = 'Dr'
+                    else:
+                        cl.type = 'Cr'
+
                     cl.debit = total_debit
                     cl.credit =total_credit
                     cl.save()
@@ -172,7 +176,10 @@ def ledger_show(request,id,pk):
                     mon = LedgerMonths.objects.get(id=pk)
                     cl.month = mon 
                     cl.Closing_balance = current_total1
-                    cl.type = 'Dr'
+                    if total_balance1 >total_credit:
+                        cl.type = 'Dr'
+                    else:
+                        cl.type = 'Cr'
                     cl.debit = total_debit
                     cl.credit =total_credit
                     cl.save()
@@ -183,7 +190,10 @@ def ledger_show(request,id,pk):
                     mon = LedgerMonths.objects.get(id=pk)
                     cl.month = mon 
                     cl.Closing_balance = current_total1
-                    cl.type = 'Dr'
+                    if total_balance1 >total_credit:
+                        cl.type = 'Dr'
+                    else:
+                        cl.type = 'Cr'
                     cl.debit = total_debit
                     cl.credit =total_credit
                     cl.save()
@@ -193,7 +203,10 @@ def ledger_show(request,id,pk):
                     mon = LedgerMonths.objects.get(id=pk)
                     cl.month = mon 
                     cl.Closing_balance = current_total1
-                    cl.type = 'Dr'
+                    if total_balance1 >total_credit:
+                        cl.type = 'Dr'
+                    else:
+                        cl.type = 'Cr'
                     cl.debit = total_debit
                     cl.credit =total_credit
                     cl.save() 
@@ -207,7 +220,10 @@ def ledger_show(request,id,pk):
                     mon = LedgerMonths.objects.get(id=pk)
                     cl.month = mon 
                     cl.Closing_balance = current_total2
-                    cl.type = 'Dr'
+                    if total_balance2 >total_debit:
+                        cl.type = 'Cr'
+                    else:
+                        cl.type = 'Dr'
                     cl.debit = total_debit
                     cl.credit =total_credit
                     cl.save()
@@ -217,7 +233,10 @@ def ledger_show(request,id,pk):
                     mon = LedgerMonths.objects.get(id=pk)
                     cl.month = mon 
                     cl.Closing_balance = current_total2
-                    cl.type = 'Dr'
+                    if total_balance2 >total_debit:
+                        cl.type = 'Cr'
+                    else:
+                        cl.type = 'Dr'
                     cl.debit = total_debit
                     cl.credit =total_credit
                     cl.save()
@@ -228,7 +247,10 @@ def ledger_show(request,id,pk):
                     mon = LedgerMonths.objects.get(id=pk)
                     cl.month = mon 
                     cl.Closing_balance = current_total2
-                    cl.type = 'Dr'
+                    if total_balance2 >total_debit:
+                        cl.type = 'Cr'
+                    else:
+                        cl.type = 'Dr'
                     cl.debit = total_debit
                     cl.credit =total_credit
                     cl.save()
@@ -238,7 +260,10 @@ def ledger_show(request,id,pk):
                     mon = LedgerMonths.objects.get(id=pk)
                     cl.month = mon 
                     cl.Closing_balance = current_total2
-                    cl.type = 'Dr'
+                    if total_balance2 >total_debit:
+                        cl.type = 'Cr'
+                    else:
+                        cl.type = 'Dr'
                     cl.debit = total_debit
                     cl.credit =total_credit
                     cl.save()
@@ -250,7 +275,22 @@ def ledger_show(request,id,pk):
                 
             
        
+    tcl1 = Leger_Month_closing.objects.get(Ledger=le,month=pk)
+    type = tcl1.type
+    closing_balance = tcl1.Closing_balance 
+
+    # mon = LedgerMonths.objects.get(id=pk)
+
+    # if mon.month_name =="April":
+
+
+
+
+
     
+
+    
+
       
 
     context={
@@ -261,13 +301,75 @@ def ledger_show(request,id,pk):
         'total_credit':total_credit,
         'current_total1':current_total1,
         'current_total2' :current_total2,
+        "type1":type,
+        'closing_balance':closing_balance,
         
 
 
     }
     
 
-    return render(request,'ledger_show.html',context)    
+    return render(request,'ledger_show.html',context)  
+
+     
+
+def ledger_show2(request,id):
+    voucher = Ledger_Voucher.objects.filter(ledger=id)
+    ledger = Ledger.objects.filter(id=id)
+    le = Ledger.objects.get(id=id)
+
+
+    total_debit=0
+    total_credit=0
+    total_balance1=0
+    total_balance2 =0
+    closing_balance =0
+
+
+    for i in voucher:
+        if i.Debit :
+
+            total_debit +=  i.Debit
+        if i.Credit :
+            total_credit = total_credit + i.Credit
+
+    total_balance1 = le.ledger_opening_bal+total_debit
+
+    total_balance2 = le.ledger_opening_bal+total_credit
+
+    if le.ledger_opening_bal_type =="Dr":
+            closing_balance = total_balance1 - total_credit
+            if (closing_balance < 0):
+                closing_balance = -1*closing_balance
+            type2="Dr"    
+    else:
+        closing_balance = total_balance1 - total_credit
+        if (closing_balance < 0):
+            closing_balance = -1*closing_balance
+        type2="Cr"     
+
+
+
+            
+
+
+    context={
+        'voucher' : voucher,
+        'ledger' :ledger,
+        
+        'total_debit':total_debit,
+        'total_credit':total_credit,
+        'closing_balance':closing_balance,
+        'type2':type2,
+        'le':le
+        
+        
+        
+     }  
+
+
+    return render(request,'ledger_show2.html',context) 
+
 
 
 
@@ -321,6 +423,9 @@ def ledger_monthly_summary(request,id):
     current_total2 =0
     open_balance = 0
     closing_balance=0
+    closing_balance_debit=0
+    closing_balance_credit=0
+
 
     for i in lemo:
         if i.debit :
@@ -330,7 +435,17 @@ def ledger_monthly_summary(request,id):
             total_credit = total_credit + i.credit
 
         if i.Closing_balance :
-            closing_balance += i.Closing_balance   
+            if i.type == "Dr":
+                closing_balance_debit += i.Closing_balance
+            else:
+                closing_balance_credit += i.Closing_balance
+
+    closing_balance  =  closing_balance_debit - closing_balance_credit 
+
+     
+    
+
+
     # total_balance1 = le.ledger_opening_bal+total_debit
 
     # total_balance2 = le.ledger_opening_bal+total_credit
@@ -350,22 +465,38 @@ def ledger_monthly_summary(request,id):
         
         tcl = Ledger.objects.get(id=id)
         tc.ledger=tcl
-        tc.Total_Closing_balance = closing_balance
-        tc.type="Dr"
+        
+        if closing_balance < 0:
+            closing_balance = -1*closing_balance
+            print(closing_balance)  
+            tc.Total_Closing_balance = closing_balance
+            tc.type="Cr"
+        else:
+            tc.Total_Closing_balance = closing_balance
+            print(closing_balance)
+            tc.type="Dr"
+
         tc.save()
         
-        
 
-       
         
     else:
         tc = TotalClosing_balance()
         tcl = Ledger.objects.get(id=id)
         tc.ledger=tcl
-        tc.Total_Closing_balance = closing_balance
-        tc.type="Dr"
+        if closing_balance == - closing_balance:
+            closing_balance = -1*closing_balance
+            tc.Total_Closing_balance = closing_balance
+            tc.type="Cr"
+        else:
+            tc.Total_Closing_balance = closing_balance
+            tc.type="Dr"
+
         tc.save()
           
+    tc_type = TotalClosing_balance.objects.get(ledger=le_id)
+    type1 = tc_type.type 
+    print(type1)
 
 
     context={
@@ -383,6 +514,7 @@ def ledger_monthly_summary(request,id):
         'lemo':lemo,
         'le':le,
         'closing_balance':closing_balance,
+        'type1':type1
 
 
     }

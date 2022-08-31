@@ -32,6 +32,10 @@ urlpatterns = [
 
     path('ledger_show/<int:id>/<int:pk>',views.ledger_show,name='ledger_show'),
 
+    path('ledger_show2/<int:id>',views.ledger_show2,name='ledger_show2'),
+
+    
+
     path('ledger_monthly_summary/<int:id>',views.ledger_monthly_summary,name='ledger_monthly_summary'),
 
     

@@ -61,7 +61,7 @@ cursor:pointer;
                             <td colspan="2">{{i.ledger_name}}</td>
                             {% if i.totalclosing_balance_set.all.exists %}
                             {% for j in i.totalclosing_balance_set.all %}
-                            {% if i.ledger_opening_bal_type == "Dr" %}
+                            {% if j.type == "Dr" %}
                             <td style="text-align: end;"><strong>
                                 {% if j.Total_Closing_balance %}
                                 {{j.Total_Closing_balance}}
