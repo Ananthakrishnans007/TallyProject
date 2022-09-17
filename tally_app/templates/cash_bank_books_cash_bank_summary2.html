@@ -31,7 +31,7 @@ cursor:pointer;
         <div class="main-panel">
             <div class="content-wrapper">
                 <div class="row d-flex " style="background-color: rgb(103, 175, 220);color:#fff;width:100%;margin: auto;">
-                    <div class="col "> Cash/Bank Summary</div>
+                    <div class="col "> Group Summary</div>
                 </div>
                 
                 <div class="table-responsive">
@@ -40,7 +40,7 @@ cursor:pointer;
                         <tr>
                           <th rowspan="3" colspan="2"   class="align-middle text-white "> <h6 class="d-flex align-items-sm-start par p-1 py-1" style="margin-left: 20px;">Particular</h6></th>
                           
-                          <th colspan="2" class="text-center text-white"><h5><i>Bank Accounts</i></h5>
+                          <th colspan="2" class="text-center text-white" style="width: 25%;"><h5><i>Bank Accounts</i></h5>
                             <h5>ABC PVT.LTD</h5>For 1-Apr-2022</th>
                         </tr>
                         <tr>
@@ -57,10 +57,10 @@ cursor:pointer;
                         {% for i in ledger %}
                         
                     
-                        <tr class="table-row"  data-href="{% url 'ledger_monthly_summary' i.id %}">
+                        <tr class="table-row"  data-href="{% url 'cash_bank_books_ledger_monthly_summary' i.id %}">
                             <td colspan="2">{{i.ledger_name}}</td>
-                            {% if i.totalclosing_balance_set.all.exists %}
-                            {% for j in i.totalclosing_balance_set.all %}
+                            {% if i.cash_bank_books_totalclosing_balance_set.all.exists %}
+                            {% for j in i.cash_bank_books_totalclosing_balance_set.all %}
                             {% if j.type == "Dr" %}
                             <td style="text-align: end;"><strong>
                                 {% if j.Total_Closing_balance %}

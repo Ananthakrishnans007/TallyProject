@@ -7,22 +7,7 @@
     
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
         <script>
-            // $(document).ready(function()
-
-            // {
-            //     var amount;
-            //     var total=0;
-            //     $('td:nth-child(2)').each(function()
-
-            //     {
-
-            //         amount=$(this).html()
-            //         total+=parseInt(amount);
-            //         $('#totalamount').text(total);
-
-            //     });
-            // });
-
+            
             
 
         </script>
@@ -60,13 +45,15 @@ cursor:pointer;
                     <div class="col "> Cash/Bank Summary</div>
                 </div>
                 
-                <div class="table-responsive">
+                <div class="table-responsive ">
                     <table  class="table  " style="background-color: rgba(33,57,77,255);color:#fff;">
                     <thead>
                         <tr>
-                          <th rowspan="3" colspan="2"   class="align-middle text-white "> <h6 class="d-flex align-items-sm-start par p-1 py-1" style="margin-left: 20px;">Particular</h6></th>
+                          <th rowspan="3" colspan="2"   class="align-middle text-white " > 
+                            <h6 class="d-flex align-items-sm-start par p-1 py-1" style="margin-left: 20px;">Particular</h6>
+                        </th>
                           
-                          <th colspan="2" class="text-center text-white"><h5><i>Bank Accounts</i></h5>
+                          <th colspan="2" class="text-center text-white" style="width: 25%;"><h5><i>Bank Accounts</i></h5>
                             <h5>ABC PVT.LTD</h5>For 1-Apr-2022</th>
                         </tr>
                         <tr>
@@ -85,9 +72,9 @@ cursor:pointer;
                         {% for i in group %}
                         {% if i.ledger_set.all.exists %}
                         
-                          <tr class="table-row1"  data-href="{% url 'cash_bank_summary2' i.id %}">
-                            {% if i.group_under_closing_balance_set.all.exists %}
-                            {% for m in i.group_under_closing_balance_set.all %}
+                          <tr class="table-row1"  data-href="{% url 'cash_bank_books_group_summary' i.id %}">
+                            {% if i.cash_bank_books_group_under_closing_balance_set.all.exists %}
+                            {% for m in i.cash_bank_books_group_under_closing_balance_set.all %}
                             <td colspan="2"  >  {{ i.group_under_Name }}  </td>
                             
                             
@@ -123,8 +110,8 @@ cursor:pointer;
 
                         <tr class="table-row">
                             <td colspan="2"><span style="margin-left: 20px;">{{j.ledger_name}} </span></td>
-                            {% if j.totalclosing_balance_set.exists %}
-                            {% for l in j.totalclosing_balance_set.all %}
+                            {% if j.cash_bank_books_totalclosing_balance_set.all.exists %}
+                            {% for l in j.cash_bank_books_totalclosing_balance_set.all %}
                             
                             {% if l.type == "Dr" %}
                             <td style="text-align: end;"><strong>

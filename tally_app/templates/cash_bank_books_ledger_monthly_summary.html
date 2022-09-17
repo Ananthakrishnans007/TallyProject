@@ -39,7 +39,9 @@ cursor:pointer;
                         <thead>
 
                             <tr>
-                                <th rowspan="3"   class="align-middle text-white "> <h6 class="d-flex align-items-sm-start par p-1 py-1" style="margin-left: 20px;">Particular</h6></th>
+                                <th rowspan="3"   class="align-middle text-white ">
+                                     <h6 class="d-flex align-items-sm-start par p-1 py-1" style="margin-left: 20px;">Particular</h6>
+                                    </th>
                                 
                                 <th colspan="3" class="text-center text-white " ><h6><i>{{ledger_name}}</i></h6>
                                   <h6><strong> ABC PVT.LTD </strong></h6><h6> For 1-Apr-2022</h6></th>
@@ -51,8 +53,8 @@ cursor:pointer;
 
                               </tr>
                               <tr>
-                                <th class="text-center text-white">Debit</th>
-                                <th class="text-center text-white">Credit</th>
+                                <th class="text-center text-white" style="width: 12%;">Debit</th>
+                                <th class="text-center text-white"style="width: 12%;">Credit</th>
                               </tr>
 
 
@@ -74,14 +76,13 @@ cursor:pointer;
                             {% for i in mo %}
                             
                             
-                            
-                            <tr class="table-row" data-href="{% url 'ledger_show' le.id i.id %}">
+                            <tr class="table-row" data-href="{% url 'cash_bank_books_ledger_show' le.id i.id %}">
                                 <td>{{i.month_name}}</td>
                                 
                                  
-                                {% if i.leger_month_closing_set.all %}
+                                {% if i.cash_bank_books_leger_month_closing_set.all %}
                                  
-                                {% for j in i.leger_month_closing_set.all %}
+                                {% for j in i.cash_bank_books_leger_month_closing_set.all %}
                                  
                                     {% if j.Ledger == le %}
 
@@ -91,16 +92,9 @@ cursor:pointer;
                                         <td style="text-align: end;"><strong>{{j.credit}}</strong></td>
                                         <td style="text-align: end;"><strong>{{j.Closing_balance}} &nbsp; {{j.type}}</strong></td>
                                     
-                                            
-                                
                               
                                     {% endif %}
-                                    
-
-                                
-
-                               
-                                
+         
                                 {% endfor %}
                                 
                                 

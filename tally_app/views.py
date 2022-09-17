@@ -10,20 +10,20 @@ def Index(request):
     return render(request,'index.html')
 
 
-# Cash in Hand    
 
-
-def cash_bank_summary(request):
+def cash_bank_books_cash_bank_summary(request):
 
     group = Group_under.objects.all()
 
-    balance = Group_Under_closing_balance.objects.all()
+    balance = cash_bank_books_Group_Under_closing_balance.objects.all()
     total_debit=0
     total_credit=0
 
     for i in balance:
-        total_debit += i.total_closing_balance_debit
-        total_credit += i.total_closing_balance_credit
+        if i.total_closing_balance_debit:
+            total_debit += i.total_closing_balance_debit
+        if  i.total_closing_balance_credit:  
+            total_credit += i.total_closing_balance_credit
 
     
     
@@ -38,33 +38,11 @@ def cash_bank_summary(request):
 
     }
 
-    # print(dct_group)
+  
     
-    return render(request,'cash_bank_summary.html',context)
+    return render(request,'cash_bank_books_cash_bank_summary.html',context)
 
-def group_summary(request):
-    return render(request,'group_summary.html')    
-    
-
-def ledger_cash(request):
-    voucher = Ledger_Voucher.objects.filter(ledger=1)
-    ledger = Ledger.objects.filter(id=1)
-    
-    
-    context={
-        'voucher' : voucher,
-        'ledger' :ledger,
-        
-
-    }
-
-
-    return render(request,'ledger_cash.html',context)    
-       
-
-# Bank Accounts
-
-def cash_bank_summary2(request,id):
+def cash_bank_books_group_summary(request,id):
     ledger = Ledger.objects.filter(group_under=id)
     
     total_debit=0
@@ -72,24 +50,33 @@ def cash_bank_summary2(request,id):
 
     for i in ledger:
         if i.ledger_opening_bal_type == 'Dr':
-            clo =TotalClosing_balance.objects.filter(ledger= i.id)
+            clo =cash_bank_books_TotalClosing_balance.objects.filter(ledger= i.id)
             for j in clo:
-                if j.Total_Closing_balance :
-                    total_debit += j.Total_Closing_balance
+                if j.type =="Dr":
+                    if j.Total_Closing_balance :
+                        total_debit += j.Total_Closing_balance
+                else:
+                    if j.Total_Closing_balance :
+                        total_credit += j.Total_Closing_balance
+
 
                 
         else:
-            clo =TotalClosing_balance.objects.filter(ledger= i.id)
+            clo =cash_bank_books_TotalClosing_balance.objects.filter(ledger= i.id)
             for j in clo:
-                if j.Total_Closing_balance :
-                    total_credit += j.Total_Closing_balance
+                if j.type =="Cr":
+                    if j.Total_Closing_balance :
+                        total_credit += j.Total_Closing_balance
+                else:
+                    if j.Total_Closing_balance :
+                        total_debit += j.Total_Closing_balance    
 
 
          
 
-    if Group_Under_closing_balance.objects.filter(group_under=id):
+    if cash_bank_books_Group_Under_closing_balance.objects.filter(group_under=id):
 
-        gp = Group_Under_closing_balance.objects.get(group_under=id)
+        gp = cash_bank_books_Group_Under_closing_balance.objects.get(group_under=id)
         group = Group_under.objects.get(id=id)
         gp.group_under= group
         gp.total_closing_balance_debit = total_debit
@@ -99,7 +86,7 @@ def cash_bank_summary2(request,id):
        
         
     else:
-        gp = Group_Under_closing_balance()
+        gp = cash_bank_books_Group_Under_closing_balance()
         group = Group_under.objects.get(id=id)
         gp.group_under= group
         gp.total_closing_balance_debit = total_debit
@@ -122,12 +109,15 @@ def cash_bank_summary2(request,id):
 
 
 
-    return render(request,'cash_bank_summary2.html',context)    
+    return render(request,'cash_bank_books_cash_bank_summary2.html',context)   
+    
 
-def ledger_show(request,id,pk):
+
+
+def cash_bank_books_ledger_show(request,id,pk):
     
     le = Ledger.objects.get(id=id)
-    voucher = Ledger_Voucher.objects.filter(ledger=le,month=pk)
+    voucher = Account_books_Ledger_Voucher.objects.filter(ledger=le,month=pk)
     ledger = Ledger.objects.filter(id=le.id)
     
     ledger_n = le.ledger_name
@@ -156,10 +146,10 @@ def ledger_show(request,id,pk):
             current_total1 = total_balance1 - total_credit
             if (current_total1 < 0):
                 current_total1 = -1*current_total1
-                if Leger_Month_closing.objects.filter(Ledger=le,month=pk):
-                    cl = Leger_Month_closing.objects.get(Ledger=le,month=pk)
+                if cash_bank_books_Leger_Month_closing.objects.filter(Ledger=le,month=pk):
+                    cl = cash_bank_books_Leger_Month_closing.objects.get(Ledger=le,month=pk)
                     cl.Ledger = le
-                    mon = LedgerMonths.objects.get(id=pk)
+                    mon = Months.objects.get(id=pk)
                     cl.month = mon 
                     cl.Closing_balance = current_total1
                     if total_balance1 >total_credit:
@@ -171,9 +161,9 @@ def ledger_show(request,id,pk):
                     cl.credit =total_credit
                     cl.save()
                 else:
-                    cl = Leger_Month_closing()
+                    cl = cash_bank_books_Leger_Month_closing()
                     cl.Ledger = le
-                    mon = LedgerMonths.objects.get(id=pk)
+                    mon = Months.objects.get(id=pk)
                     cl.month = mon 
                     cl.Closing_balance = current_total1
                     if total_balance1 >total_credit:
@@ -184,10 +174,10 @@ def ledger_show(request,id,pk):
                     cl.credit =total_credit
                     cl.save()
             else:
-                if Leger_Month_closing.objects.filter(Ledger=le,month=pk):
-                    cl = Leger_Month_closing.objects.get(Ledger=le,month=pk)
+                if cash_bank_books_Leger_Month_closing.objects.filter(Ledger=le,month=pk):
+                    cl = cash_bank_books_Leger_Month_closing.objects.get(Ledger=le,month=pk)
                     cl.Ledger = le
-                    mon = LedgerMonths.objects.get(id=pk)
+                    mon = Months.objects.get(id=pk)
                     cl.month = mon 
                     cl.Closing_balance = current_total1
                     if total_balance1 >total_credit:
@@ -198,9 +188,9 @@ def ledger_show(request,id,pk):
                     cl.credit =total_credit
                     cl.save()
                 else:
-                    cl = Leger_Month_closing()
+                    cl = cash_bank_books_Leger_Month_closing()
                     cl.Ledger = le
-                    mon = LedgerMonths.objects.get(id=pk)
+                    mon = Months.objects.get(id=pk)
                     cl.month = mon 
                     cl.Closing_balance = current_total1
                     if total_balance1 >total_credit:
@@ -214,10 +204,10 @@ def ledger_show(request,id,pk):
             current_total2 = total_balance2 - total_debit
             if (current_total2 < 0):
                 current_total2 = -1*current_total2
-                if Leger_Month_closing.objects.filter(Ledger=le,month=pk):
-                    cl = Leger_Month_closing.objects.get(Ledger=le,month=pk)
+                if cash_bank_books_Leger_Month_closing.objects.filter(Ledger=le,month=pk):
+                    cl = cash_bank_books_Leger_Month_closing.objects.get(Ledger=le,month=pk)
                     cl.Ledger = le
-                    mon = LedgerMonths.objects.get(id=pk)
+                    mon = Months.objects.get(id=pk)
                     cl.month = mon 
                     cl.Closing_balance = current_total2
                     if total_balance2 >total_debit:
@@ -228,9 +218,9 @@ def ledger_show(request,id,pk):
                     cl.credit =total_credit
                     cl.save()
                 else:
-                    cl = Leger_Month_closing()
+                    cl = cash_bank_books_Leger_Month_closing()
                     cl.Ledger = le
-                    mon = LedgerMonths.objects.get(id=pk)
+                    mon = Months.objects.get(id=pk)
                     cl.month = mon 
                     cl.Closing_balance = current_total2
                     if total_balance2 >total_debit:
@@ -241,10 +231,10 @@ def ledger_show(request,id,pk):
                     cl.credit =total_credit
                     cl.save()
             else:
-                if Leger_Month_closing.objects.filter(Ledger=le,month=pk):
-                    cl = Leger_Month_closing.objects.get(Ledger=le,month=pk)
+                if cash_bank_books_Leger_Month_closing.objects.filter(Ledger=le,month=pk):
+                    cl = cash_bank_books_Leger_Month_closing.objects.get(Ledger=le,month=pk)
                     cl.Ledger = le
-                    mon = LedgerMonths.objects.get(id=pk)
+                    mon = Months.objects.get(id=pk)
                     cl.month = mon 
                     cl.Closing_balance = current_total2
                     if total_balance2 >total_debit:
@@ -255,9 +245,9 @@ def ledger_show(request,id,pk):
                     cl.credit =total_credit
                     cl.save()
                 else:
-                    cl = Leger_Month_closing()
+                    cl = cash_bank_books_Leger_Month_closing()
                     cl.Ledger = le
-                    mon = LedgerMonths.objects.get(id=pk)
+                    mon = Months.objects.get(id=pk)
                     cl.month = mon 
                     cl.Closing_balance = current_total2
                     if total_balance2 >total_debit:
@@ -275,23 +265,10 @@ def ledger_show(request,id,pk):
                 
             
        
-    tcl1 = Leger_Month_closing.objects.get(Ledger=le,month=pk)
+    tcl1 = cash_bank_books_Leger_Month_closing.objects.get(Ledger=le,month=pk)
     type = tcl1.type
     closing_balance = tcl1.Closing_balance 
 
-    # mon = LedgerMonths.objects.get(id=pk)
-
-    # if mon.month_name =="April":
-
-
-
-
-
-    
-
-    
-
-      
 
     context={
         'voucher' : voucher,
@@ -309,12 +286,12 @@ def ledger_show(request,id,pk):
     }
     
 
-    return render(request,'ledger_show.html',context)  
+    return render(request,'cash_bank_books_ledger_show.html',context)  
 
      
 
-def ledger_show2(request,id):
-    voucher = Ledger_Voucher.objects.filter(ledger=id)
+def account_books_ledger_show2(request,id):
+    voucher = Account_books_Ledger_Voucher.objects.filter(ledger=id)
     ledger = Ledger.objects.filter(id=id)
     le = Ledger.objects.get(id=id)
 
@@ -368,7 +345,7 @@ def ledger_show2(request,id):
      }  
 
 
-    return render(request,'ledger_show2.html',context) 
+    return render(request,'account_books_ledger_show2.html',context) 
 
 
 
@@ -376,7 +353,7 @@ def ledger_show2(request,id):
 
 #leadger 
 
-def create_ledger(request):
+def account_books_create_ledger(request):
     group = Group_under.objects.all()
     
 
@@ -385,9 +362,9 @@ def create_ledger(request):
         
     }
 
-    return render(request,'load_create_ledger.html',context) 
+    return render(request,'account_books_ledger_load_create_ledger.html',context) 
 
-def ledger(request):
+def account_books_ledger(request):
     ledger = Ledger.objects.all()
     
 
@@ -396,23 +373,21 @@ def ledger(request):
         
     }
 
-    return render(request,'ledger.html',context ) 
-
-# def ledger_bank(request):
-#     return render(request,'ledger_bank.html') 
+    return render(request,'account_books_ledger.html',context ) 
 
 
-def ledger_monthly_summary(request,id):
+
+def cash_bank_books_ledger_monthly_summary(request,id):
     le = Ledger.objects.get(id=id)
-    voucher = Ledger_Voucher.objects.filter(ledger=le)
+    voucher = Account_books_Ledger_Voucher.objects.filter(ledger=le)
     ledger = Ledger.objects.filter(id=le.id)
     
     ledger_n = le.ledger_name
 
    
     le_id = le.id
-    mo = LedgerMonths.objects.all()
-    lemo = Leger_Month_closing.objects.filter(Ledger=le)
+    mo = Months.objects.all()
+    lemo = cash_bank_books_Leger_Month_closing.objects.filter(Ledger=le)
 
    
     total_debit=0 
@@ -445,23 +420,14 @@ def ledger_monthly_summary(request,id):
      
     
 
-
-    # total_balance1 = le.ledger_opening_bal+total_debit
-
-    # total_balance2 = le.ledger_opening_bal+total_credit
-    
-    # current_total1 =total_balance1-total_credit
-    # current_total2 =total_balance2-total_credit
-
-
     open_balance = le.ledger_opening_bal
 
     
     type =le.ledger_opening_bal_type
     
-    if TotalClosing_balance.objects.filter(ledger=le_id):
+    if cash_bank_books_TotalClosing_balance.objects.filter(ledger=le_id):
 
-        tc = TotalClosing_balance.objects.get(ledger=le_id)
+        tc = cash_bank_books_TotalClosing_balance.objects.get(ledger=le_id)
         
         tcl = Ledger.objects.get(id=id)
         tc.ledger=tcl
@@ -481,7 +447,7 @@ def ledger_monthly_summary(request,id):
 
         
     else:
-        tc = TotalClosing_balance()
+        tc = cash_bank_books_TotalClosing_balance()
         tcl = Ledger.objects.get(id=id)
         tc.ledger=tcl
         if closing_balance == - closing_balance:
@@ -494,9 +460,9 @@ def ledger_monthly_summary(request,id):
 
         tc.save()
           
-    tc_type = TotalClosing_balance.objects.get(ledger=le_id)
+    tc_type = cash_bank_books_TotalClosing_balance.objects.get(ledger=le_id)
     type1 = tc_type.type 
-    print(type1)
+    
 
 
     context={
@@ -521,7 +487,7 @@ def ledger_monthly_summary(request,id):
 
     
 
-    return render(request,'ledger_monthly_summary.html',context) 
+    return render(request,'cash_bank_books_ledger_monthly_summary.html',context) 
 
 
 def save_ledger(request):

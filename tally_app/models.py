@@ -94,7 +94,9 @@ class Ledger_sundry(models.Model):
 
 
 
-class Group_Under_closing_balance(models.Model):
+
+
+class cash_bank_books_Group_Under_closing_balance(models.Model):
     group_under = models.ForeignKey(Group_under,on_delete=models.CASCADE)
     total_closing_balance_debit = models.IntegerField(default="",null=True,blank=True)
     total_closing_balance_credit = models.IntegerField(default="",null=True,blank=True)
@@ -102,14 +104,14 @@ class Group_Under_closing_balance(models.Model):
     def __str__(self):
         return self.group_under.group_under_Name
 
-class LedgerMonths (models.Model):
+class Months (models.Model):
     month_name=models.CharField(max_length=255)
     def __str__(self):
         return self.month_name
 
-class Leger_Month_closing(models.Model):
+class cash_bank_books_Leger_Month_closing(models.Model):
     Ledger = models.ForeignKey(Ledger,on_delete=models.CASCADE, null=True, blank=True)  
-    month = models.ForeignKey(LedgerMonths,on_delete=models.CASCADE, null=True, blank=True)   
+    month = models.ForeignKey(Months,on_delete=models.CASCADE, null=True, blank=True)   
     Closing_balance = models.IntegerField(default="",null=True,blank=True)
     type = models.CharField(max_length=225)
     debit = models.IntegerField(default="",null=True,blank=True)
@@ -121,7 +123,7 @@ class Leger_Month_closing(models.Model):
 
     
          
-class Ledger_Voucher(models.Model):
+class Account_books_Ledger_Voucher(models.Model):
     ledger = models.ForeignKey(Ledger, on_delete=models.CASCADE, null=True, blank=True)
     
     Date = models.DateField()
@@ -130,12 +132,12 @@ class Ledger_Voucher(models.Model):
     Vch_No = models.CharField(max_length=225)
     Debit = models.IntegerField(default="",null=True,blank=True)
     Credit = models.IntegerField(default="",null=True,blank=True)
-    month = models.ForeignKey(LedgerMonths,on_delete=models.CASCADE, null=True, blank=True)   
+    month = models.ForeignKey(Months,on_delete=models.CASCADE, null=True, blank=True)   
 
     def __str__(self):
         return self.ledger.ledger_name
 
-class TotalClosing_balance(models.Model):
+class cash_bank_books_TotalClosing_balance(models.Model):
     ledger = models.ForeignKey(Ledger, on_delete=models.CASCADE, null=True, blank=True)
     Total_Closing_balance = models.IntegerField(default="",null=True,blank=True)
     type = models.CharField(max_length=225)

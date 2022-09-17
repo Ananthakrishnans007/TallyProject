@@ -4,39 +4,27 @@ from . import views
 urlpatterns = [
     path('',views.Index,name='Index'),
 
-    path('cash_bank_summary',views.cash_bank_summary,name='cash_bank_summary'),
+    path('cash_bank_books_cash_bank_summary',views.cash_bank_books_cash_bank_summary,name='cash_bank_books_cash_bank_summary'),
 
-    path('group_summary',views.group_summary,name='group_summary'),
+    path('cash_bank_books_group_summary/<int:id>',views.cash_bank_books_group_summary,name='cash_bank_books_group_summary'),
 
-    path('ledger_cash',views.ledger_cash,name='ledger_cash'),
+   path('cash_bank_books_ledger_monthly_summary/<int:id>',views.cash_bank_books_ledger_monthly_summary,name='cash_bank_books_ledger_monthly_summary'),
 
-    #bank account
-
-    path('cash_bank_summary2/<int:id>',views.cash_bank_summary2,name='cash_bank_summary2'),
-
-    # path('ledger_bank/<int:id>',views.ledger_bank,name='ledger_bank'),
-
+    path('cash_bank_books_ledger_show/<int:id>/<int:pk>',views.cash_bank_books_ledger_show,name='cash_bank_books_ledger_show'),
 
     
     #ledger
 
-    path('ledger',views.ledger,name='ledger'),
+    path('account_books_ledger',views.account_books_ledger,name='account_books_ledger'),
 
-    path('create_ledger',views.create_ledger,name='create_ledger'),
+    path('account_books_create_ledger',views.account_books_create_ledger,name='account_books_create_ledger'),
 
     path('save_ledger',views.save_ledger,name='save_ledger'),
 
 
+    path('account_books_ledger_show2/<int:id>',views.account_books_ledger_show2,name='account_books_ledger_show2'),
 
     
-
-    path('ledger_show/<int:id>/<int:pk>',views.ledger_show,name='ledger_show'),
-
-    path('ledger_show2/<int:id>',views.ledger_show2,name='ledger_show2'),
-
-    
-
-    path('ledger_monthly_summary/<int:id>',views.ledger_monthly_summary,name='ledger_monthly_summary'),
 
     
 

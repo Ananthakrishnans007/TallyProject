@@ -132,7 +132,7 @@
 
                 <div class="box">
                     <div class="head px-3" style="margin-top: 5px;">List of Ledgers</div>
-                    <div class="create" ><a href="{% url 'create_ledger' %}" style="color:#FFF ;">Create</a> </div>
+                    <div class="create" ><a href="{% url 'account_books_create_ledger' %}" style="color:#FFF ;">Create</a> </div>
                     <hr>
 
                     <table id="myTable" class="tb">
@@ -141,7 +141,7 @@
                             
                             <td>
                                 
-                        <a href="{% url 'ledger_show2' i.id %}">{{i.ledger_name}}</a>
+                        <a href="{% url 'account_books_ledger_show2' i.id %}">{{i.ledger_name}}</a>
                         
                             </td>
                            
