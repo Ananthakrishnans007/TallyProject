@@ -4,10 +4,19 @@ from .models import*
 # Register your models here.
 
 
-admin.site.register(Group_under)
+admin.site.register(Companies)
 
 
-admin.site.register(Ledger)
+admin.site.register(tally_group)
+
+admin.site.register(Account_Books_Group_under)
+
+admin.site.register(Account_Books_Ledger)
+
+
+
+
+admin.site.register(tally_ledger)
 
 
 admin.site.register(Account_books_Ledger_Voucher)

@@ -70,7 +70,8 @@ cursor:pointer;
                         
                         
                         {% for i in group %}
-                        {% if i.ledger_set.all.exists %}
+                       
+                        {% if i.account_books_ledger_set.all.exists %}
                         
                           <tr class="table-row1"  data-href="{% url 'cash_bank_books_group_summary' i.id %}">
                             {% if i.cash_bank_books_group_under_closing_balance_set.all.exists %}
@@ -104,7 +105,7 @@ cursor:pointer;
                         {% endif %}
                         
                                 
-                        {% for j in i.ledger_set.all %}
+                        {% for j in i.account_books_ledger_set.all %}
 
                         
 

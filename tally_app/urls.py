@@ -19,11 +19,32 @@ urlpatterns = [
 
     path('account_books_create_ledger',views.account_books_create_ledger,name='account_books_create_ledger'),
 
-    path('save_ledger',views.save_ledger,name='save_ledger'),
+    path('create_ledger',views.create_ledger,name='create_ledger'),
 
 
     path('account_books_ledger_show2/<int:id>',views.account_books_ledger_show2,name='account_books_ledger_show2'),
 
+
+
+
+
+
+
+    path('group_alt',views.group_alt,name='group_alt'),
+    path('ledger_chequed',views.ledger_chequed,name='ledger_chequed'),
+    path('ledger_chequebk',views.ledger_chequebk,name='ledger_chequebk'),
+    path('ledger_bd',views.ledger_bd,name='ledger_bd'),
+    path('ledger_gst',views.ledger_gst,name='ledger_gst'),
+    path('ledger_taxgst ',views.ledger_taxgst ,name='ledger_taxgst'),
+       
+
+    
+
+    
+
+   
+
+    
     
 
     

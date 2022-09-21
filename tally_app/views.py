@@ -13,7 +13,9 @@ def Index(request):
 
 def cash_bank_books_cash_bank_summary(request):
 
-    group = Group_under.objects.all()
+   
+    group = Account_Books_Group_under.objects.all()
+
 
     balance = cash_bank_books_Group_Under_closing_balance.objects.all()
     total_debit=0
@@ -31,7 +33,8 @@ def cash_bank_books_cash_bank_summary(request):
         
         'group':group,
         'total_debit':total_debit,
-        'total_credit':total_credit
+        'total_credit':total_credit,
+        
 
 
         
@@ -43,7 +46,7 @@ def cash_bank_books_cash_bank_summary(request):
     return render(request,'cash_bank_books_cash_bank_summary.html',context)
 
 def cash_bank_books_group_summary(request,id):
-    ledger = Ledger.objects.filter(group_under=id)
+    ledger = Account_Books_Ledger.objects.filter(group_under=id)
     
     total_debit=0
     total_credit=0
@@ -77,7 +80,7 @@ def cash_bank_books_group_summary(request,id):
     if cash_bank_books_Group_Under_closing_balance.objects.filter(group_under=id):
 
         gp = cash_bank_books_Group_Under_closing_balance.objects.get(group_under=id)
-        group = Group_under.objects.get(id=id)
+        group = Account_Books_Group_under.objects.get(id=id)
         gp.group_under= group
         gp.total_closing_balance_debit = total_debit
         gp.total_closing_balance_credit =  total_credit
@@ -87,7 +90,7 @@ def cash_bank_books_group_summary(request,id):
         
     else:
         gp = cash_bank_books_Group_Under_closing_balance()
-        group = Group_under.objects.get(id=id)
+        group = Account_Books_Group_under.objects.get(id=id)
         gp.group_under= group
         gp.total_closing_balance_debit = total_debit
         gp.total_closing_balance_credit =  total_credit
@@ -116,9 +119,9 @@ def cash_bank_books_group_summary(request,id):
 
 def cash_bank_books_ledger_show(request,id,pk):
     
-    le = Ledger.objects.get(id=id)
+    le = Account_Books_Ledger.objects.get(id=id)
     voucher = Account_books_Ledger_Voucher.objects.filter(ledger=le,month=pk)
-    ledger = Ledger.objects.filter(id=le.id)
+    ledger = Account_Books_Ledger.objects.filter(id=le.id)
     
     ledger_n = le.ledger_name
 
@@ -201,73 +204,75 @@ def cash_bank_books_ledger_show(request,id,pk):
                     cl.credit =total_credit
                     cl.save() 
         else:
-            current_total2 = total_balance2 - total_debit
-            if (current_total2 < 0):
-                current_total2 = -1*current_total2
-                if cash_bank_books_Leger_Month_closing.objects.filter(Ledger=le,month=pk):
-                    cl = cash_bank_books_Leger_Month_closing.objects.get(Ledger=le,month=pk)
-                    cl.Ledger = le
-                    mon = Months.objects.get(id=pk)
-                    cl.month = mon 
-                    cl.Closing_balance = current_total2
-                    if total_balance2 >total_debit:
-                        cl.type = 'Cr'
+            if le.ledger_opening_bal_type =="Cr":
+                current_total2 = total_balance2 - total_debit
+                if (current_total2 < 0):
+                    current_total2 = -1*current_total2
+                    if cash_bank_books_Leger_Month_closing.objects.filter(Ledger=le,month=pk):
+                        cl = cash_bank_books_Leger_Month_closing.objects.get(Ledger=le,month=pk)
+                        cl.Ledger = le
+                        mon = Months.objects.get(id=pk)
+                        cl.month = mon 
+                        cl.Closing_balance = current_total2
+                        if total_balance2 >total_debit:
+                            cl.type = 'Cr'
+                        else:
+                            cl.type = 'Dr'
+                        cl.debit = total_debit
+                        cl.credit =total_credit
+                        cl.save()
                     else:
-                        cl.type = 'Dr'
-                    cl.debit = total_debit
-                    cl.credit =total_credit
-                    cl.save()
+                        cl = cash_bank_books_Leger_Month_closing()
+                        cl.Ledger = le
+                        mon = Months.objects.get(id=pk)
+                        cl.month = mon 
+                        cl.Closing_balance = current_total2
+                        if total_balance2 >total_debit:
+                            cl.type = 'Cr'
+                        else:
+                            cl.type = 'Dr'
+                        cl.debit = total_debit
+                        cl.credit =total_credit
+                        cl.save()
                 else:
-                    cl = cash_bank_books_Leger_Month_closing()
-                    cl.Ledger = le
-                    mon = Months.objects.get(id=pk)
-                    cl.month = mon 
-                    cl.Closing_balance = current_total2
-                    if total_balance2 >total_debit:
-                        cl.type = 'Cr'
+                    if cash_bank_books_Leger_Month_closing.objects.filter(Ledger=le,month=pk):
+                        cl = cash_bank_books_Leger_Month_closing.objects.get(Ledger=le,month=pk)
+                        cl.Ledger = le
+                        mon = Months.objects.get(id=pk)
+                        cl.month = mon 
+                        cl.Closing_balance = current_total2
+                        if total_balance2 >total_debit:
+                            cl.type = 'Cr'
+                        else:
+                            cl.type = 'Dr'
+                        cl.debit = total_debit
+                        cl.credit =total_credit
+                        cl.save()
                     else:
-                        cl.type = 'Dr'
-                    cl.debit = total_debit
-                    cl.credit =total_credit
-                    cl.save()
-            else:
-                if cash_bank_books_Leger_Month_closing.objects.filter(Ledger=le,month=pk):
-                    cl = cash_bank_books_Leger_Month_closing.objects.get(Ledger=le,month=pk)
-                    cl.Ledger = le
-                    mon = Months.objects.get(id=pk)
-                    cl.month = mon 
-                    cl.Closing_balance = current_total2
-                    if total_balance2 >total_debit:
-                        cl.type = 'Cr'
-                    else:
-                        cl.type = 'Dr'
-                    cl.debit = total_debit
-                    cl.credit =total_credit
-                    cl.save()
-                else:
-                    cl = cash_bank_books_Leger_Month_closing()
-                    cl.Ledger = le
-                    mon = Months.objects.get(id=pk)
-                    cl.month = mon 
-                    cl.Closing_balance = current_total2
-                    if total_balance2 >total_debit:
-                        cl.type = 'Cr'
-                    else:
-                        cl.type = 'Dr'
-                    cl.debit = total_debit
-                    cl.credit =total_credit
-                    cl.save()
+                        cl = cash_bank_books_Leger_Month_closing()
+                        cl.Ledger = le
+                        mon = Months.objects.get(id=pk)
+                        cl.month = mon 
+                        cl.Closing_balance = current_total2
+                        if total_balance2 >total_debit:
+                            cl.type = 'Cr'
+                        else:
+                            cl.type = 'Dr'
+                        cl.debit = total_debit
+                        cl.credit =total_credit
+                        cl.save()
 
 
 
 
 
                 
-            
-       
-    tcl1 = cash_bank_books_Leger_Month_closing.objects.get(Ledger=le,month=pk)
-    type = tcl1.type
-    closing_balance = tcl1.Closing_balance 
+    type =""
+    closing_balance =0
+    if cash_bank_books_Leger_Month_closing.objects.filter(Ledger=le,month=pk):
+        tcl1 = cash_bank_books_Leger_Month_closing.objects.get(Ledger=le,month=pk)
+        type = tcl1.type
+        closing_balance = tcl1.Closing_balance 
 
 
     context={
@@ -292,8 +297,8 @@ def cash_bank_books_ledger_show(request,id,pk):
 
 def account_books_ledger_show2(request,id):
     voucher = Account_books_Ledger_Voucher.objects.filter(ledger=id)
-    ledger = Ledger.objects.filter(id=id)
-    le = Ledger.objects.get(id=id)
+    ledger = Account_Books_Ledger.objects.filter(id=id)
+    le = Account_Books_Ledger.objects.get(id=id)
 
 
     total_debit=0
@@ -354,7 +359,7 @@ def account_books_ledger_show2(request,id):
 #leadger 
 
 def account_books_create_ledger(request):
-    group = Group_under.objects.all()
+    group = Account_Books_Group_under.objects.all()
     
 
     context = {
@@ -365,7 +370,7 @@ def account_books_create_ledger(request):
     return render(request,'account_books_ledger_load_create_ledger.html',context) 
 
 def account_books_ledger(request):
-    ledger = Ledger.objects.all()
+    ledger = Account_Books_Ledger.objects.all()
     
 
     context = {
@@ -378,9 +383,9 @@ def account_books_ledger(request):
 
 
 def cash_bank_books_ledger_monthly_summary(request,id):
-    le = Ledger.objects.get(id=id)
+    le = Account_Books_Ledger.objects.get(id=id)
     voucher = Account_books_Ledger_Voucher.objects.filter(ledger=le)
-    ledger = Ledger.objects.filter(id=le.id)
+    ledger = Account_Books_Ledger.objects.filter(id=le.id)
     
     ledger_n = le.ledger_name
 
@@ -429,7 +434,7 @@ def cash_bank_books_ledger_monthly_summary(request,id):
 
         tc = cash_bank_books_TotalClosing_balance.objects.get(ledger=le_id)
         
-        tcl = Ledger.objects.get(id=id)
+        tcl = Account_Books_Ledger.objects.get(id=id)
         tc.ledger=tcl
         
         if closing_balance < 0:
@@ -448,7 +453,7 @@ def cash_bank_books_ledger_monthly_summary(request,id):
         
     else:
         tc = cash_bank_books_TotalClosing_balance()
-        tcl = Ledger.objects.get(id=id)
+        tcl = Account_Books_Ledger.objects.get(id=id)
         tc.ledger=tcl
         if closing_balance == - closing_balance:
             closing_balance = -1*closing_balance
@@ -490,168 +495,136 @@ def cash_bank_books_ledger_monthly_summary(request,id):
     return render(request,'cash_bank_books_ledger_monthly_summary.html',context) 
 
 
-def save_ledger(request):
-    if request.method == 'POST':
-        # Ledger Basic
-        Lname = request.POST.get('ledger_name', False)
-        Lalias = request.POST.get('ledger_alias', False)
-
-        c = request.POST['group_under']
-        group =Group_under.objects.get(id=c)
-
-        
-        
-
-
-        Lunder = group
-
-
-
-        Lopening_bal = request.POST.get('ledger_opening_bal', False)
-        L_ob_type = request.POST['Type']
-
-        typ_of_ledg = request.POST.get('ledger_type', False)
-        provide_banking = request.POST.get('provide_banking_details', False)
-
-        # Banking_details
-        B_od_limit = request.POST.get('od_limit', False)
-        B_ac_holder_name =request.POST.get('holder_name', False)
-        B_ac_no = request.POST.get('ac_number', False)
-        B_ifsc = request.POST.get('ifsc', False)
-        B_swift_code =request.POST.get('swift_code', False)
-        B_name = request.POST.get('bank_name', False)
-        B_branch = request.POST.get('branch_name', False)
-        B_alter_chq_bks =request.POST.get('alter_chk_bks', False)
-        B_name_enbl_chq_prtg = request.POST.get('enbl_chk_printing', False) 
-        B_chqconfg= request.POST.get('chqconfg', False) 
-        # Mailing_details
-        Mname = request.POST.get('name', False)
-        Maddress = request.POST.get('address', False)
-        Mstate =request.POST.get('state', False)
-        Mcountry = request.POST.get('country', False)
-        Mpincode = request.POST.get('pincode', False)
-
-        # Tax_Registration_Details
-        Tgst_uin = request.POST.get('gst_uin', False)
-        Treg_typ = request.POST.get('register_type', False)
-        Tpan_no = request.POST.get('pan_no', False)
-        T_alter_gst =request.POST.get('alter_gst_details', False)
-
-        # Satutory Details
-        assessable_calculationn = request.POST.get('assessable_calculation', False)
-        Appropriate_too =request.POST.get('Appropriate_to', False)
-        gst_applicablee = request.POST.get('is_gst_applicable',False)
-        Set_alter_GSTT=request.POST.get('Set_alter_GST', False)
-        type_of_supplyy = request.POST.get('type_of_supply',False)
-        Method_of_calcc=request.POST.get('Method_of_calc', False)
-
-        #leadger Rounding
-        ledger_idd=request.POST.get('useadvc', False)
-        Rounding_Methodd=request.POST.get('Rounding_Method', False)
-        Round_limitt =request.POST.get('Round_limit', False)
-
-        #ledger_tax 
-        type_of_duty_or_taxx=request.POST.get('type_of_duty_or_tax', False)
-        type_of_taxx=request.POST.get('type_of_tax', False)
-        valuation_typee=request.POST.get('valuation_type', False)
-        rate_per_unitt=request.POST.get('rate_per_unit', False)
-        Persentage_of_calculationn=request.POST.get('Persentage_of_calculation', False)
-
-        #sundry
-        maintain_balance_bill_by_billl=request.POST.get('maintain_balance_bill_by_bill', False)
-        Default_credit_periodd=request.POST.get('Default_credit_period', False)
-        Check_for_credit_dayss=request.POST.get('Check_for_credit_days', False)
-
-        if Ledger.objects.filter(ledger_name = Lname ).exists():
-                messages.info(request,'This Name is already taken...!')
-                return redirect('load_create_ledger.html')
-
-        Lmdl = Ledger(
-            ledger_name=Lname,
-            ledger_alias=Lalias,
-            group_under=Lunder,
-            ledger_opening_bal=Lopening_bal,
-            ledger_type=typ_of_ledg,
-            provide_banking_details=provide_banking,
-            ledger_opening_bal_type = L_ob_type,
-        )
-        Lmdl.save()
-        idd = Lmdl
-        Bmdl = Ledger_Banking_Details(
-        
-            ledger_id=idd,
-            od_limit=B_od_limit,
-            holder_name=B_ac_holder_name,
-            ac_number=B_ac_no,
-            ifsc=B_ifsc,
-            swift_code=B_swift_code,
-            bank_name=B_name,
-            branch_name=B_branch,
-            alter_chk_bks=B_alter_chq_bks,
-            enbl_chk_printing=B_name_enbl_chq_prtg,
-
-        )
-        Bmdl.save()
-        M_mdl = Ledger_Mailing_Address(
-
-            name=Mname,
-            address=Maddress,
-            state=Mstate,
-            country=Mcountry,
-            pincode=Mpincode,
-        )
-        M_mdl.save()
-        T_mdl = Ledger_Tax_Register(
-           
-          
-            gst_uin=Tgst_uin,
-            register_type=Treg_typ,
-            pan_no=Tpan_no,
-            alter_gst_details=T_alter_gst,
-
-        )
-        T_mdl.save()
-        LS_mdl = Ledger_Satutory(
-
-            ledger_id=idd,
-            assessable_calculation=assessable_calculationn,
-            Appropriate_to =Appropriate_too ,
-            gst_applicable=gst_applicablee,
-            Set_alter_GST = Set_alter_GSTT,
-            type_of_supply=type_of_supplyy,
-            Method_of_calc = Method_of_calcc,
-
-
-        )
-        LS_mdl.save()
-
-        rnd_mdl = Ledger_Rounding(
-            ledger_id=idd,
-            Rounding_Method=Rounding_Methodd,
-            Round_limit =Round_limitt,
-
-        )
-        rnd_mdl.save()
-
-        tax_mdl = ledger_tax(
-            ledger_id=idd,
-            type_of_duty_or_tax=type_of_duty_or_taxx,
-            type_of_tax =type_of_taxx,
-            valuation_type=valuation_typee,
-            rate_per_unit=rate_per_unitt,
-            Persentage_of_calculation=Persentage_of_calculationn,
-        )
-        tax_mdl.save()
-
-        sndry_mdl = Ledger_sundry(
-            ledger_id=idd,
-            maintain_balance_bill_by_bill=maintain_balance_bill_by_billl,
-            Default_credit_period=Default_credit_periodd,
-            Check_for_credit_days =Check_for_credit_dayss,
-        )
-        sndry_mdl.save()
-        messages.info(request,'LEDGER CREATED SUCCESSFULLY')
-        return redirect('create_ledger')
 
   
+def create_ledger(request):
     
+        if request.method=='POST':
+            nm=request.POST.get('name')
+            als=request.POST.get('alias')
+            under=request.POST.get('under')
+            mname=request.POST.get('mailingname')
+            adr=request.POST.get('address')
+            st=request.POST.get('state')
+            cntry=request.POST.get('country')
+            pin=request.POST.get('pincode')
+            pno=request.POST.get('pan_no')
+            bdetls=request.POST.get('bank_details')
+            rtype=request.POST.get('registration_type')
+            gst_uin=request.POST.get('gst_uin')
+            opnbn=request.POST.get('opening_blnc')
+            type = request.POST['Type']
+
+            spdl=request.POST.get('set_odl')
+            achnm=request.POST.get('ac_holder_nm')
+            acno=request.POST.get('acc_no')
+            ifsc=request.POST.get('ifsc_code')
+            scode=request.POST.get('swift_code')
+            bn=request.POST.get('bank_name')
+            brnch=request.POST.get('branch')
+            sacbk=request.POST.get('SA_cheque_bk')
+            ecp=request.POST.get('Echeque_p')
+            sacpc=request.POST.get('SA_chequeP_con')
+
+            typofled=request.POST.get('type_of_ledger')
+            rometh=request.POST.get('rounding_method')
+            rolmt=request.POST.get('rounding_limit')
+
+            typdutytax=request.POST.get('type_duty_tax')
+            taxtyp=request.POST.get('tax_type')
+            valtype=request.POST.get('valuation_type')
+            rateperu=request.POST.get('rate_per_unit')
+            percalc=request.POST.get('percentage_of_calcution')
+            rondmethod=request.POST.get('rond_method')
+            roimlit=request.POST.get('rond_limit')
+
+            gstapplicbl=request.POST.get('gst_applicable')
+            sagatdet=request.POST.get('setalter_gstdetails')
+            typsupply=request.POST.get('type_of_supply')
+            asseval=request.POST.get('assessable_value')
+            appropto=request.POST.get('appropriate_to')
+            methcalcu=request.POST.get('method_of_calculation')
+
+            balbillbybill=request.POST.get('balance_billbybill')
+            credperiod=request.POST.get('credit_period')
+            creditdaysvouch=request.POST.get('creditdays_voucher')
+            
+            ldr=tally_ledger(name=nm,alias=als,under=under,mname=mname,address=adr,state=st,country=cntry,
+                            pincode=pin,pan_no=pno,bank_details=bdetls,registration_type=rtype,gst_uin=gst_uin,
+                            opening_blnc=opnbn,
+                            opening_blnc_type=type,
+                            set_odl=spdl,ac_holder_nm=achnm,acc_no=acno,ifsc_code=ifsc,swift_code=scode,
+                            bank_name=bn,branch=brnch,SA_cheque_bk=sacbk,Echeque_p=ecp,SA_chequeP_con=sacpc,
+                            type_of_ledger=typofled,rounding_method=rometh,rounding_limit=rolmt,type_duty_tax=typdutytax,tax_type=taxtyp,
+                            valuation_type=valtype,rate_per_unit=rateperu,percentage_of_calcution=percalc,rond_method=rondmethod,rond_limit=roimlit,
+                            gst_applicable=gstapplicbl,setalter_gstdetails=sagatdet,type_of_supply=typsupply,assessable_value=asseval,
+                            appropriate_to=appropto,method_of_calculation=methcalcu,balance_billbybill=balbillbybill,credit_period=credperiod,
+                            creditdays_voucher=creditdaysvouch)
+
+                            # ,company_id=t_id
+            
+            ldr.save()
+
+
+            group_under = Account_Books_Group_under.objects.all()
+            ad =""
+            for i in group_under:
+                if i.group_under_Name == under:
+
+                    ad = under
+
+                    gup=Account_Books_Group_under.objects.get(group_under_Name=under)
+
+                    account_book_ledger = Account_Books_Ledger()
+                    account_book_ledger.ledger_name = nm
+                    account_book_ledger.group_under = gup
+                    account_book_ledger.ledger_opening_bal = opnbn
+                    account_book_ledger.ledger_opening_bal_type = type
+                    account_book_ledger.save()
+                
+                
+            if ad != under:
+                account_book_group_under = Account_Books_Group_under()
+            
+                account_book_group_under.group_under_Name =under
+                account_book_group_under.save()
+
+                account_book_ledger = Account_Books_Ledger()
+                account_book_ledger.ledger_name = nm
+                gu =Account_Books_Group_under.objects.get(id=account_book_group_under.id)
+                account_book_ledger.group_under = gu
+                account_book_ledger.ledger_opening_bal = opnbn
+                account_book_ledger.ledger_opening_bal_type = type
+                account_book_ledger.save()           
+
+
+            return render(request,'account_books_ledger.html')
+        return redirect('/')
+
+
+
+
+def group_alt(request):  
+    return render(request,'test.html') 
+
+def ledger_chequed(request):
+    return render(request,'test.html') 
+
+
+def ledger_chequebk(request):
+    return render(request,'test.html') 
+
+def ledger_bd(request):
+    return render(request,'test.html')  
+
+def ledger_gst(request):
+    return render(request,'test.html')  
+
+def ledger_taxgst    (request):
+    return render(request,'test.html')     
+
+    
+
+
+
+     
