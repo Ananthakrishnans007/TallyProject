@@ -565,37 +565,71 @@ def create_ledger(request):
             
             ldr.save()
 
+            if under =="Bank Accounts":
+                group_under = Account_Books_Group_under.objects.all()
+                ad =""
+                for i in group_under:
+                    if i.group_under_Name == under:
 
-            group_under = Account_Books_Group_under.objects.all()
-            ad =""
-            for i in group_under:
-                if i.group_under_Name == under:
+                        ad = under
 
-                    ad = under
+                        gup=Account_Books_Group_under.objects.get(group_under_Name=under)
 
-                    gup=Account_Books_Group_under.objects.get(group_under_Name=under)
+                        account_book_ledger = Account_Books_Ledger()
+                        account_book_ledger.ledger_name = nm
+                        account_book_ledger.group_under = gup
+                        account_book_ledger.ledger_opening_bal = opnbn
+                        account_book_ledger.ledger_opening_bal_type = type
+                        account_book_ledger.save()
+                
+                
+                if ad != under:
+                    account_book_group_under = Account_Books_Group_under()
+            
+                    account_book_group_under.group_under_Name =under
+                    account_book_group_under.save()
 
                     account_book_ledger = Account_Books_Ledger()
                     account_book_ledger.ledger_name = nm
-                    account_book_ledger.group_under = gup
+                    gu =Account_Books_Group_under.objects.get(id=account_book_group_under.id)
+                    account_book_ledger.group_under = gu
                     account_book_ledger.ledger_opening_bal = opnbn
                     account_book_ledger.ledger_opening_bal_type = type
                     account_book_ledger.save()
-                
-                
-            if ad != under:
-                account_book_group_under = Account_Books_Group_under()
-            
-                account_book_group_under.group_under_Name =under
-                account_book_group_under.save()
 
-                account_book_ledger = Account_Books_Ledger()
-                account_book_ledger.ledger_name = nm
-                gu =Account_Books_Group_under.objects.get(id=account_book_group_under.id)
-                account_book_ledger.group_under = gu
-                account_book_ledger.ledger_opening_bal = opnbn
-                account_book_ledger.ledger_opening_bal_type = type
-                account_book_ledger.save()           
+
+            if under =="Cash in Hand":
+                group_under = Account_Books_Group_under.objects.all()
+                ad =""
+                for i in group_under:
+                    if i.group_under_Name == under:
+
+                        ad = under
+
+                        gup=Account_Books_Group_under.objects.get(group_under_Name=under)
+
+                        account_book_ledger = Account_Books_Ledger()
+                        account_book_ledger.ledger_name = nm
+                        account_book_ledger.group_under = gup
+                        account_book_ledger.ledger_opening_bal = opnbn
+                        account_book_ledger.ledger_opening_bal_type = type
+                        account_book_ledger.save()
+                
+                
+                if ad != under:
+                    account_book_group_under = Account_Books_Group_under()
+            
+                    account_book_group_under.group_under_Name =under
+                    account_book_group_under.save()
+
+                    account_book_ledger = Account_Books_Ledger()
+                    account_book_ledger.ledger_name = nm
+                    gu =Account_Books_Group_under.objects.get(id=account_book_group_under.id)
+                    account_book_ledger.group_under = gu
+                    account_book_ledger.ledger_opening_bal = opnbn
+                    account_book_ledger.ledger_opening_bal_type = type
+                    account_book_ledger.save()          
+
 
 
             return render(request,'account_books_ledger.html')
